@@ -29,15 +29,19 @@ const HomeScreen = props => {
         onValueChange={setLocalSearchText}
         onFinishEnter={searchFromServer} />
       {/* neg scroll View mash ih erelttei */}
-      <TopProduct />
+      <ScrollView style={{ marginTop: 16, }}>
+        <View style={{ marginHorizontal: 12, marginVertical: 6, backgroundColor: "#F8C94F", paddingHorizontal: 6, paddingVertical: 6, borderRadius: 12, maxWidth: "50%" }}>
+          <Text style={{ fontSize: 24, fontWeight: "500", color: "#100E0D", width: "100%", textAlign: "center" }}>Их эрэлттэй </Text>
+        </View>
 
-      <ScrollView >
+        <TopProduct />
+
         {categories ? categories.map(category => (
           <CategoryProductList
             searchLocalValue={localSearchText}
             searchServerValue={serverSearchText}
             key={category.id}
-            style={{ marginVertical: 10 }}
+            style={{ marginVertical: 10, }}
             data={category}
           />)) : null}
 
@@ -51,7 +55,7 @@ export default HomeScreen
 const css = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: 4
+    backgroundColor: "#fafafa"
   }
 })
 

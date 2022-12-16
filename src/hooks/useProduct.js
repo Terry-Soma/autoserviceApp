@@ -15,6 +15,8 @@ export default (catId) => {
             "serNum": "",
             "shirheg": 12,
             "une": 100,
+            "cner": "Гэрэл дохио"
+
         },
         {
             "categoryId": 1,
@@ -26,6 +28,8 @@ export default (catId) => {
             "serNum": "",
             "shirheg": 12,
             "une": 100,
+            "cner": "Гэрэл дохио"
+
         },
         {
             "categoryId": 1,
@@ -37,6 +41,8 @@ export default (catId) => {
             "serNum": "",
             "shirheg": 12,
             "une": 100,
+            "cner": "Гэрэл дохио"
+
         },
         {
             "categoryId": 1,
@@ -48,6 +54,8 @@ export default (catId) => {
             "serNum": "",
             "shirheg": 12,
             "une": 100,
+            "cner": "Гэрэл дохио"
+
         },
         {
             "categoryId": 1,
@@ -59,6 +67,8 @@ export default (catId) => {
             "serNum": "",
             "shirheg": 12,
             "une": 100,
+            "cner": "Гэрэл дохио"
+
         },
         {
             "categoryId": 1,
@@ -70,6 +80,8 @@ export default (catId) => {
             "serNum": "",
             "shirheg": 12,
             "une": 100,
+            "cner": "Гэрэл дохио"
+
         },
     ]);
     const [error, setError] = useState(null);

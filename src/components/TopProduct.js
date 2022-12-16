@@ -1,11 +1,10 @@
-import { StyleSheet, Text, View, Image, SectionList } from 'react-native'
+import { StyleSheet, Text, View, Image, SectionList, Pressable } from 'react-native'
 import React, { useState } from 'react'
 import { FlatList, ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
-import { useNavigation } from "@react-navigation/native";
-
+import { useNavigation } from '@react-navigation/native'
 import { restUrl } from '../../Constants';
+
 const TopProduct = () => {
-  const overrideRenderItem = ({ item, index, section: { title, data } }) => <Text key={index}>Override{item}</Text>
   const navigation = useNavigation();
   const [data, setData] = useState([{
     "categoryId": 1,
@@ -16,7 +15,9 @@ const TopProduct = () => {
     "ner": "95 урд гэрэл",
     "serNum": "",
     "shirheg": 12,
-    "une": 100,
+    "une": 1001232,
+    "cner": "Гэрэл дохио"
+
   },
   {
     "categoryId": 1,
@@ -28,6 +29,8 @@ const TopProduct = () => {
     "serNum": "",
     "shirheg": 12,
     "une": 100,
+    "cner": "Гэрэл дохио"
+
   },
   {
     "categoryId": 1,
@@ -39,6 +42,7 @@ const TopProduct = () => {
     "serNum": "",
     "shirheg": 12,
     "une": 100,
+    "cner": "Гэрэл дохио"
   },
   {
     "categoryId": 1,
@@ -50,6 +54,8 @@ const TopProduct = () => {
     "serNum": "",
     "shirheg": 12,
     "une": 100,
+    "cner": "Гэрэл дохио"
+
   },
   {
     "categoryId": 1,
@@ -61,6 +67,8 @@ const TopProduct = () => {
     "serNum": "",
     "shirheg": 12,
     "une": 100,
+    "cner": "Гэрэл дохио"
+
   },
   {
     "categoryId": 1,
@@ -72,66 +80,95 @@ const TopProduct = () => {
     "serNum": "",
     "shirheg": 12,
     "une": 100,
+    "cner": "Гэрэл дохио"
+
   }]);
   return (
-    <View>
-      <Text>This is productTop</Text>
 
-      <ScrollView scrollEnabled style={css.proContainer} >
-        {data ? (data.map(product => {
-          return (
-            // <FlatList>
-            <TouchableOpacity key={product.id}
-              onPress={() => navigation.navigate("Бүтээгдэхүүн", { id: product.id })}
-            >
-              <Text style={css.proName}>{product.ner}</Text>
-              {/* <Image style={css.proImage} source={{ uri: restUri+"/upload/" + product.photo }} /> */}
-              {/* zurag baigaa uguig shalgah */}
-              <Image style={css.proImage} source={{ uri: `${restUrl}/upload/${product.img}` }} />
-              <View style={css.flex}>
-                <Text style={css.countText}>{product.shirheg} ш байна</Text>
-                <Text style={css.priceText}>{product.une ? product.une : "123444₮"}₮</Text>
-              </View>
-            </TouchableOpacity>
-            // </FlatList>
-          )
-        }
-        )) : null}
+    <View style={{ marginLeft: 8, flex: 1, padding: 2, marginBottom: 12 }}>
 
+      {
+        data ? (
+          <FlatList data={data}
+            keyExtractor={(item) => item.id}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            renderItem={
+              ({ item, index }) => <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => {
+                  navigation.navigate("Бүтээгдэхүүн", { product: item })
+                }}
+                style={{ paddingHorizontal: 4, }}
+              >
+                <View style={css.proContainer}>
+                  <Text style={css.proName}>{item.ner}</Text>
 
-      </ScrollView>
-    </View>
+                  <View style={{
+                    flex: 1,
+                    paddingHorizontal: 4,
+                    margin: 4
+                  }}>
+                    <Image style={css.proImage} source={{ uri: restUrl + "/upload/" + item.img }} />
+
+                  </View>
+
+                  <View style={css.flex}>
+                    <Text style={css.countText}>{item.shirheg} ш</Text>
+                    <Text style={css.priceText}>{item.une ? item.une : "123444₮"}₮</Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            }
+          />
+        ) : null}
+    </View >
+
   )
 }
+{/* <Image style={css.proImage} source={require('./../../assets/splash.png')} /> */ }
 
 export default TopProduct
 
 const css = StyleSheet.create({
   proContainer: {
-    marginLeft: 16,
     flex: 1,
+    height: 240,
+    paddingTop: 12,
+    paddingHorizontal: 6,
+    marginRight: 6,
+    width: 264,
+    borderRadius: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.9,
+    shadowRadius: 2,
+    elevation: 2,
+    backgroundColor: "#fefefe",
+    marginBottom: 6,
+    overflow: "hidden"
   },
   proImage: {
-    width: 216,
-    height: "60%",
-
-    marginRight: 15,
-    borderWidth: 2,
-    borderRadius: 12
+    backgroundColor: "#111fff",
+    height: "100%",
+    width: "100%",
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+    resizeMode: 'cover'
   },
   proName: {
-    marginLeft: 4,
-    marginTop: 10,
-    marginBottom: 10,
+    marginLeft: 12,
+    marginBottom: 6,
     fontSize: 14,
     fontWeight: '600'
   },
   flex: {
-    flex: 1,
     flexDirection: 'row',
     justifyContent: "space-between",
-    paddingHorizontal: 10,
-    marginTop: 12,
+    paddingHorizontal: 5,
+    paddingBottom: 4,
+    marginVertical: 6,
+
     alignItems: "center"
   },
   priceText: {
@@ -141,11 +178,27 @@ const css = StyleSheet.create({
   countText: {
     fontSize: 16,
     fontWeight: "600"
-  }
+  },
+
 
 })
+{/* zurag baigaa uguig shalgah */ }
 
+{/*  */ }
 /*
+ <TouchableOpacity key={index}
+                onPress={() => navigation.navigate("Бүтээгдэхүүн", { id: item.id })}
+              >
+                <Text style={css.proName}>{item.ner}</Text>
+               
+                <Image style={css.proImage} source={{ uri: `${restUrl}/upload/${item.img}` }} />
+                <View style={css.flex}>
+                  <Text style={css.countText}>{item.shirheg} ш байна</Text>
+                  <Text style={css.priceText}>{item.une ? item.une : "123444₮"}₮</Text>
+                </View>
+              </TouchableOpacity>
+  const overrideRenderItem = ({ item, index, section: { title, data } }) => <Text key={index}>Override{item}</Text>
+
   <SectionList
         renderItem={({ item, index, section }) => (
           <Text key={index}>{item}</Text>

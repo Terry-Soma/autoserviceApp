@@ -13,8 +13,10 @@ const CategoryProductList = props => {
   // );
 
   return (
-    <View>
-      {/* <Text style={css.catText}>{props.data.ner} - {filteredItems.length}</Text> */}
+    <View style={{ marginLeft: 8, }}>
+      <View style={{ marginHorizontal: 6, marginTop: 24, backgroundColor: "#F8C94F", paddingVertical: 6, borderRadius: 12, width: "64%" }}>
+        <Text style={css.catText}>{props.data.ner} - {products.length}ш  </Text>
+      </View>
       {/* {error && ( }
              <Text style={css.errorText}>
                {error}
@@ -42,10 +44,9 @@ const css = StyleSheet.create({
     color: "red"
   },
   catText: {
-    marginLeft: 15,
-    fontWeight: "bold",
+    fontWeight: '400',
     fontSize: 18,
-    marginTop: 20,
-    backgroundColor: "#18f9a1",
+    color: "#100E0D",
+    textAlign: "center"
   }
 })

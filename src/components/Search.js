@@ -26,6 +26,7 @@ const css = StyleSheet.create({
   searchPanel: {
     height: 48,
     backgroundColor: "#CAD5E2",
+
     marginHorizontal: 12,
     borderRadius: 7,
     flexDirection: "row",
