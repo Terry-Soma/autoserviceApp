@@ -109,7 +109,9 @@ const TopProduct = () => {
                     paddingHorizontal: 4,
                     margin: 4
                   }}>
-                    <Image style={css.proImage} source={{ uri: restUrl + "/upload/" + item.img }} />
+                    {/* <Image style={css.proImage} source={{ uri: restUrl + "/upload/" + item.img }} /> */}
+                    <Image style={css.proImage} source={require(`./../../assets/favicon.png`)} />
+
 
                   </View>
 

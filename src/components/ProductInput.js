@@ -8,13 +8,12 @@ export default function (props) {
 
         <Text style={{ fontWeight: 300 }}>{props.title}</Text>
       </View>
-
       <TextInput
         autoCapitalize="none"
         autoCorrect={false}
         {...props}
         style={[css.inputField, props.style]}
-        value={props.data}
+        value={props.value}
       />
     </View>
   );

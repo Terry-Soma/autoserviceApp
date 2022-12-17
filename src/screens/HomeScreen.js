@@ -1,7 +1,6 @@
-import { StyleSheet, Text, ScrollView, View } from 'react-native'
+import { StyleSheet, Text, ScrollView, View, SafeAreaView } from 'react-native'
 import React, { useState } from 'react'
 import Search from '../components/Search'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import Spinner from '../components/Spinner';
 
 import useCategory from '../hooks/useCategory';
@@ -55,6 +54,7 @@ export default HomeScreen
 const css = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: 16,
     backgroundColor: "#fafafa"
   }
 })

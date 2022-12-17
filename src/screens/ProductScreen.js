@@ -4,18 +4,54 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { restUrl } from '../../Constants';
 import MyButton from '../components/MyButton';
 import MyInput from '../components/ProductInput';
-
+import { Feather } from '@expo/vector-icons'
+import thousandify from 'thousandify';
+import { Ionicons } from '@expo/vector-icons';
 const ProductScreen = props => {
   const { product } = props.route?.params;
-
   const [quantity, setQuantity] = useState("1");
+  // const [price, setPrice] = useState(product.une)
+  const price = product.une * quantity;
+  const incQuantity = () => {
+    setQuantity(prevVal => {
+      let temp = +prevVal;
+      if (temp < product.shirheg)
+        return (temp + 1).toString();
+      else return prevVal;
+    })
+  };
+  const decQuantity = () => {
+    setQuantity(prevVal => {
+      let temp = +prevVal;
+      if (temp - 1 > 0)
+        return (temp - 1).toString();
+      else return "1";
+    })
+  }
   // const [product, error, loading] = useOneProduct(id);
-  const sellProduct = () => {
+  const purchaseProduct = () => {
+    if (quantity > product.shirheg) {
+      // aldaa garga
+    }
+    else {
+      console.log('product', quantity);
+
+    }
 
   };
 
+
+  // {
+  //   "categoryId": 1,
+  //   "come_date": "2022-02-13",
+  //   "id": 6,
+  //   "serNum": "",
+
+  //   "cner": "Гэрэл дохио"
+
+  // }
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={{ marginLeft: 8 }}>
+    <ScrollView showsVerticalScrollIndicator={false} style={[css.border, { marginLeft: 8 }]}>
       {product.img ? (
         <View style={{
           flex: 1,
@@ -23,7 +59,7 @@ const ProductScreen = props => {
           alignItems: "center",
           marginTop: 10
         }}>
-          <Image style={css.proImage} source={{ uri: restUrl + "/upload/" + product.img }} />
+          <Image style={css.proImage} source={require('./../../assets/parado1.jpg')} />
         </View>
       ) : (
         null
@@ -35,12 +71,52 @@ const ProductScreen = props => {
       <MyInput title="Тоо ширхэг" keyboardType="numeric" data={product.shirheg + ""} />
       <MyInput title="үнэ" keyboardType="numeric" data={product.une + ""} /> */}
 
+      <Text style={{ fontSize: 24, textTransform: 'capitalize', marginLeft: 14, marginTop: 16 }}>{product.ner}</Text>
+      <Text style={{ color: "#555", fontSize: 16, marginLeft: 16 }}>{product.location}</Text>
+
+      {/* product main info */}
+      <View style={[{ flexDirection: "row", justifyContent: "space-evenly", marginHorizontal: 12 }]}>
+        <View style={[{ height: 100, flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-evenly", }, css.card]}>
+          <Feather name="box" size={48} color="#234599" />
+
+          <View style={[{ marginLeft: 4 }]}>
+            <Text style={{ color: "#212121", fontSize: 24 }}>Ширхэг</Text>
+            <Text style={{ color: "#1e1e1e", fontSize: 16 }}>{product.shirheg} </Text>
+          </View>
+        </View>
+        <View style={{ width: 10 }}></View>
+        <View style={[{ height: 100, flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-evenly", }, css.card,]}>
+          <Feather name="dollar-sign" size={48} color="#234599" />
+          <View style={{ marginLeft: 4 }}>
+            <Text style={{ color: "#212121", fontSize: 24, marginRight: 8 }}>Үнэ /Ш</Text>
+            <Text style={{ color: "#1e1e1e", fontSize: 16 }}>{thousandify(product.une)}₮ </Text>
+          </View>
+        </View>
+      </View>
 
 
+      {/* зарах хэсэг */}
+      {/* <MyInput keyboardType="number-pad" value={1} /> */}
+      <View style={[{ flexDirection: "row", justifyContent: "space-around", alignItems: "center" }]}>
+        {/* төлбөрийн үнэ */}
+        <View style={[{ padding: 12 }, css.card]}>
+          <Text style={{ fontSize: 24, color: "#122", marginBottom: 6 }}>Төлөх үнэ</Text>
+          <Text style={{ color: "#1e1e1e", fontSize: 16, textAlign: "center" }} >{thousandify(price)}₮</Text>
+        </View>
 
+        {/* авах тоо */}
+        <View style={[{ width: 150, flexDirection: 'row', justifyContent: "space-around", alignItems: "center", backgroundColor: "#212121", padding: 4, borderRadius: 24 }, css.card]}>
+          <TouchableOpacity style={{ borderRadius: 50, padding: 8 }}
+            onPress={incQuantity}><Ionicons name="add" size={32} color="#234599" /></TouchableOpacity>
+          <TextInput keyboardType='number-pad' value={quantity} defaultValue='1' onChangeText={setQuantity} style={[{ flex: 1, fontSize: 22 }]} textAlign="center" />
+          <TouchableOpacity style={{ borderRadius: 50, padding: 4 }}
+            onPress={decQuantity}><Feather name="minus" size={32} color="#234599" /></TouchableOpacity>
+        </View>
+      </View >
+      <MyButton title='Авах' onPress={purchaseProduct} />
       {/* bish bol */}
 
-      <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+      {/* <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
         <View style={{ flex: 2 }}>
           <Text style={{ fontSize: 18, fontWeight: "bold", padding: 10 }}>{product.ner}</Text>
           <Text style={{ fontSize: 14, fontWeight: 300, }}>Категорийн нэр - {product.categoryId}</Text>
@@ -48,11 +124,11 @@ const ProductScreen = props => {
         <View style={{ flex: 1 }}>
           <Text style={{ fontSize: 18, fontWeight: "bold", padding: 10 }}>Үнэ : {product.une}₮</Text>
         </View>
-      </View>
-      <Icon />
-      <Text style={{ fontSize: 18, fontWeight: "bold", padding: 10 }}>Байршил : {product.location}</Text>
+      </View> */}
+      {/* <Icon /> */}
+      {/* <Text style={{ fontSize: 18, fontWeight: "bold", padding: 10 }}>Байршил : {product.location}</Text>
       <Text style={{ fontSize: 18, fontWeight: "bold", padding: 10 }}>Үлдэгдэл : {product.shirheg}</Text>
-      <Text style={{ fontSize: 14, fontWeight: "300" }}>Ирсэн огноо : {product.come_date}</Text>
+      <Text style={{ fontSize: 14, fontWeight: "300" }}>Ирсэн огноо : {product.come_date}</Text> */}
 
 
       {/* <View
@@ -65,7 +141,7 @@ const ProductScreen = props => {
 
 
 
-    </ScrollView>
+    </ScrollView >
   )
 }
 
@@ -80,4 +156,19 @@ const css = StyleSheet.create({
     borderTopRightRadius: 8,
     resizeMode: 'cover'
   },
+  border: {
+    borderColor: "red",
+    borderWidth: 2
+  },
+  card: {
+    marginVertical: 12,
+    borderRadius: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    backgroundColor: "#fefefe",
+    overflow: "hidden"
+  }
 });

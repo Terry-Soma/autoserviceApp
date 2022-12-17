@@ -7,6 +7,8 @@ import { restUrl } from '../../Constants';
 const windowWidth = Dimensions.get('window').width;
 const Product = ({ data }) => {
   const navigation = useNavigation();
+  // console.log(`./../../assets/${data.img}`)
+
   return (
     <TouchableOpacity style={css.proContainer}
       onPress={() => navigation.navigate("Бүтээгдэхүүн", { product: data })}
@@ -20,7 +22,7 @@ const Product = ({ data }) => {
         flex: 1,
         margin: 4
       }}>
-        <Image style={css.proImage} source={{ uri: restUrl + "/upload/" + data.img }} />
+        <Image style={css.proImage} source={require(`../../assets/parado1.jpg`)} />
       </View>
       <View style={css.flex}>
         <Text style={css.countText}>{data.shirheg} ш</Text>
