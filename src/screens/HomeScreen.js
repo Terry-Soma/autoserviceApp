@@ -1,4 +1,4 @@
-import { StyleSheet, Text, ScrollView, View, SafeAreaView } from 'react-native'
+import { StyleSheet, Text, ScrollView, View } from 'react-native'
 import React, { useState } from 'react'
 import Search from '../components/Search'
 import Spinner from '../components/Spinner';
@@ -6,6 +6,7 @@ import Spinner from '../components/Spinner';
 import useCategory from '../hooks/useCategory';
 import CategoryProductList from '../components/CategoryProductList';
 import TopProduct from '../components/TopProduct';
+import { SafeAreaView } from 'react-native-safe-area-context';
 const HomeScreen = props => {
 
   const [localSearchText, setLocalSearchText] = useState("");

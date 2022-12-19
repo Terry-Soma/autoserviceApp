@@ -15,7 +15,10 @@ const Search = props => {
         autoCorrect={false}
         onChangeText={props.onValueChange}
         onEndEditing={props.onFinishEnter}
+        clearButtonMode="always"
+        value={props.value}
       />
+      {props.value !== "" ? (<Feather name="x" style={[css.searchIcon, { paddingRight: 4 }]} color="black" onPress={() => props.onValueChange("")} />) : null}
     </View>
   )
 }
@@ -26,7 +29,6 @@ const css = StyleSheet.create({
   searchPanel: {
     height: 48,
     backgroundColor: "#CAD5E2",
-
     marginHorizontal: 12,
     borderRadius: 7,
     flexDirection: "row",
