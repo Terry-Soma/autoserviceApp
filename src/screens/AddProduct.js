@@ -3,32 +3,59 @@ import { View, Text, SafeAreaView, ScrollView, Button, Platform, Alert, Image, L
 // import { SafeAreaView } from "react-native-safe-area-context";
 import * as ImagePicker from 'expo-image-picker';
 import ImagePickerExample from "../components/Test";
-import { ActivityIndicator, } from "react-native-paper";
+import { ActivityIndicator, Card, Button as PaparButton, Title, Paragraph, Avatar, IconButton } from "react-native-paper";
 import { app, storage } from '../../firebaseConfig'
 import { getDownloadURL, ref, uploadBytes, uploadBytesResumable } from 'firebase/storage'
 import * as Animatable from "react-native-animatable";
 import FormText from "../components/FormText";
+import thousandify from 'thousandify'
 import { StatusBar } from "expo-status-bar";
-
+import FormRadioButtons from "../components/FormRadioButtons";
+import { lightColor, mainColor } from "../../Constants";
+//   "come_date": "2022-02-13",
+//             "serNum": "",
 export default function AddProduct() {
   const [image, setImage] = useState();
   const [uploading, setUploading] = useState(false);
-  const [status, requestPermission] = ImagePicker.useCameraPermissions();
+  const [producName, setProductName] = useState(null);
+  const [productPrice, setProductPrice] = useState(null)
+  const [categoryId, setCategoryId] = useState(null)
+  const [productLoc, setProductLoc] = useState(null)
+  const [productQuality, setProductQuality] = useState(null);
+  const [productCatId, setProductCatId] = useState(null)
+  const categories = [
+    {
+      "id": 1,
+      "ner": "Гэрэл дохио",
+    },
+    {
+      "id": 2,
+      "ner": "Түүлк резин",
+    },
+    {
+      "id": 3,
+      "ner": "Явах эд анги",
+    },
+    {
+      "id": 4,
+      "ner": "Мотор кроп",
+    },
+    {
+      "id": 5,
+      "ner": "Шинэ сэлбэг/95",
+    },
+  ]
   const takeImage = async () => {
-    // ask Permission 
-    // const result = await PermissionsAndroid.askAsync(PermissionsAndroid.PERMISSIONS.CAMERA);
-    // if (result.status === "granted") {
-    //   console.log('ssss')
+    const result = await ImagePicker.getCameraPermissionsAsync();
 
-
-    // } else {
-    //   Alert.alert("Анхаар ", "Зураг авахын тулд эрхүүдийг нээх шаардлагатай", [{ text: "ЗА" }])
-    //   return;
-    // }
+    if (result.status !== "granted") {
+      Alert.alert("Анхаар ", "Зураг авахын тулд эрхүүдийг нээх шаардлагатай", [{ text: "ЗА" }])
+      return;
+    }
     const image = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
       aspect: [16, 9],
-      quality: 0.7
+      quality: 0.5
     })
     if (!image.cancelled) {
       setImage(image.uri);
@@ -39,8 +66,8 @@ export default function AddProduct() {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [16, 9],
-      quality: 0.7,
+      aspect: [4, 3],
+      quality: 0.5,
     });
     if (!result.cancelled) {
       setImage(result.uri);
@@ -52,32 +79,69 @@ export default function AddProduct() {
     const fileExt = fileName.substring(fileName.lastIndexOf('.') + 1);
     const metadata = { contentType: `image/${fileExt}` };
     const storageRef = ref(storage, `Upload/${fileName}`);
+    console.log('fileName', fileName);
+    console.log('img', image)
+
 
     const response = await fetch(image);
     const blob = await response.blob();
-    const uploadTask = uploadBytesResumable(storageRef, blob, metadata);
-    uploadTask.on('state_changed',
-      (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        switch (snapshot.state) {
-          case 'paused':
-            console.log('Upload is paused');
-            break;
-          case 'running':
-            console.log('Upload is running');
-            break;
-        }
-      },
-      (error) => {
-        console.log('error', error)
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          console.log('File available at', downloadURL);
-        });
-      }
-    );
-    setUploading(false)
+    // const blob = await new Promise((resolve, reject) => {
+    //   const xhr = new XMLHttpRequest();
+    //   xhr.onload = function () {
+    //     console.log('xhr', xhr.response);
+    //     resolve(xhr.response);
+    //   };
+    //   xhr.onloadstart = function () {
+    //     console.log('xhr', xhr.responseText);
+    //     // resolve(xhr.response);
+    //   };
+    //   xhr.onerror = function (e) {
+    //     console.log(e);
+    //     reject(new TypeError("Network request failed"));
+    //   };
+    //   xhr.responseType = "blob";
+    //   xhr.open("GET", image, true);
+    //   xhr.send(null);
+
+    // });
+    // console.log('response', response)
+    console.log('response blob', blob)
+
+
+
+    uploadBytes(storageRef, blob, metadata)
+      .then(() => {
+        console.log('Uploaded a blob or file!')
+      })
+      .catch(err => console.log('errr', err))
+      .finally(() => setUploading(false));
+    //     const uploadTask = uploadBytesResumable(storageRef, blob, metadata);
+    //     uploadTask.on('state_changed',
+    //       (snapshot) => {
+    //         console.log('snapshot', snapshot.bytesTransferred, snapshot.totalBytes)
+
+    //         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+    //         console.log('progres', progress);
+
+    //         switch (snapshot.state) {
+    //           case 'paused':
+    //             console.log('Upload is paused');
+    //             break;
+    //           case 'running':
+    //             console.log('Upload is running');
+    //             break;
+    //         }
+    //       },
+    //       (error) => {
+    //         console.log('error', error)
+    //       },
+    //       () => {
+    //         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+    //           console.log('File available at', downloadURL);
+    //         });
+    //       }
+    //     );
+
   }
 
   useEffect(() => {
@@ -92,12 +156,12 @@ export default function AddProduct() {
               text: "Тохиргоог нээх",
               onPress: () => {
                 if (Platform.OS === "ios") Linking.openURL("app-settings:");
-                else {
-                  // android intent
-                  IntentLauncher.startActivityAsync(
-                    IntentLauncher.ACTION_APPLICATION_SETTINGS
-                  );
-                }
+                // else {
+                //   // android intent
+                //   IntentLauncher.startActivityAsync(
+                //     IntentLauncher.ACTION_APPLICATION_SETTINGS
+                //   );
+                // }
               }
             },
             { text: "Ok", onPress: () => { } }
@@ -107,69 +171,116 @@ export default function AddProduct() {
       }
     })();
   }, []);
-  // "categoryId": 1,
-  //   "come_date": "2022-02-13",
-  //         "location": "Гаражны хойд тавиур",
-  //           "ner": "95 урд гэрэл",
-  //             "serNum": "",
-  //               "shirheg": 12,
-  //                 "une": 100,
-  //                   "cner": "Гэрэл дохио"
+
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#3498DB" }}>
-      <StatusBar backgroundColor="#3498DB" barStyle="dark-content" />
-
+      <StatusBar backgroundColor={mainColor} barStyle="dark-content" />
       <View
         style={{
           flex: 1,
           paddingVertical: 10,
           paddingHorizontal: 20,
-          backgroundColor: "tomato"
+          backgroundColor: mainColor
         }}
       >
-        <Text style={{ fontSize: 30, color: "#05375a" }}>
-          Шинээр бараа нэмэх
-        </Text>
-        <Text style={{ fontSize: 16, color: "#05375a", marginTop: 10 }}>
+        <Text style={{ fontSize: 24, color: lightColor, textAlign: "center" }}>
           Та барааны мэдээллээ оруулна уу
         </Text>
+
       </View>
       <Animatable.View
         animation="fadeInUpBig"
         duration={800}
         style={{
-          flex: 5,
-          paddingHorizontal: 20,
+          flex: 8,
+          paddingHorizontal: 16,
           paddingVertical: 30,
-          paddingVertical: 10,
-          paddingHorizontal: 20,
-          backgroundColor: "#fff",
+          backgroundColor: lightColor,
           borderTopLeftRadius: 30,
-          borderTopRightRadius: 30
+          borderTopRightRadius: 30,
+
         }}
       >
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false} style={{
+          borderColor: "red", borderWidth: 2,
+        }}>
           {/* image picker */}
-          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', }}>
-            <View style={{ flexDirection: "row", }}>
-              <Button title="Галерейгээс зураг сонгох" onPress={pickImage} />
-              <Button title="Зураг авах" onPress={takeImage} />
+          <View style={{
+            flex: 1, alignItems: 'center', justifyContent: 'center',
+            paddingHorizontal: 2,
+            borderColor: "red", borderWidth: 2,
+            paddingBottom: 10,
+          }}>
+            <View style={{ flexDirection: "row", alignSelf: "stretch", marginVertical: 10, justifyContent: "space-evenly", }}>
+              <PaparButton icon="folder-image" mode="text" onPress={pickImage} textColor={mainColor} >
+                Галерейгаас  сонгох
+              </PaparButton>
+              <PaparButton icon="camera" mode="contained" onPress={takeImage} buttonColor={mainColor} >
+                Зураг авах
+              </PaparButton>
             </View>
-            {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+            {image && <Image source={{ uri: image }} style={{ width: 250, height: 200, borderColor: "red", borderWidth: 2, }} resizeMode="contain" />}
           </View>
+
+
           {!uploading ? <Button title='Upload Image' onPress={uploadImage} /> : <ActivityIndicator size={'small'} color='black' />}
           {/* image picker */}
 
           {/* information  */}
           <FormText
-            label="Номын нэрийг оруулна уу"
-            placeholder="Номын нэр"
-            icon="book-open"
-            value={"sdfsdfsdf"}
-            onChangeText={() => { }}
-            errorText="Номын нэрийн урт 4-20 тэмдэгтээс тогтоно."
-            errorShow={"sdfsfd"}
+            label="Барааны нэрийг оруулна уу"
+            placeholder="Барааны нэр"
+            icon="package"
+            value={producName}
+            onChangeText={setProductName}
+            errorText="Барааны нэрийн урт 4-20 тэмдэгтээс тогтоно."
+            errorShow={true}
+          />
+
+          <FormText
+            label="Барааны үнийг оруулна уу"
+            placeholder="Барааны үнэ"
+            icon="dollar-sign"
+            keyboardType="numeric"
+            value={productPrice}
+            onChangeText={setProductPrice}
+            errorText="Барааны үнэ тоо байх ёстой."
+            errorShow={false}
+          />
+          <FormText
+            label="Барааны тоог оруулна уу"
+            placeholder="Барааны тоо ширхэг"
+            icon="plus-square"
+            keyboardType="numeric"
+            value={productQuality}
+            onChangeText={setProductQuality}
+            errorText="Барааны тоог оруулах ёстой."
+            errorShow={false}
+          />
+          <FormText
+            label="Барааны байршлыг оруулна уу"
+            placeholder="Барааны байршил"
+            style={{ fontSize: 12, marginTop: -10 }}
+            icon="edit"
+            multiline
+            numberOfLines={3}
+            value={productLoc}
+            onChangeText={setProductLoc}
+            errorText="Барааны байршил  тэмдэгтээс тогтоно."
+            errorShow={false}
+          />
+          <FormRadioButtons
+            label="Барааны ангилал :"
+            icon="layers"
+            data={categories.map(el => el.ner)}
+            value={productCatId}
+            values={categories.map(el => el.id)}
+            onValueChange={(value) => {
+              console.log(value);
+              //  id ni avna
+              setProductCatId(value)
+            }}
           />
 
         </ScrollView>
