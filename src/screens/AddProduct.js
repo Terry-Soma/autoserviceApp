@@ -11,17 +11,18 @@ import FormText from "../components/FormText";
 import thousandify from 'thousandify'
 import { StatusBar } from "expo-status-bar";
 import FormRadioButtons from "../components/FormRadioButtons";
-import { lightColor, mainColor } from "../../Constants";
+import { lightColor, mainColor, restUrl } from "../../Constants";
 //   "come_date": "2022-02-13",
+import axios from 'axios'
+import MyButton from "../components/MyButton";
 //             "serNum": "",
-export default function AddProduct() {
+export default function AddProduct(props) {
   const [image, setImage] = useState();
   const [uploading, setUploading] = useState(false);
   const [producName, setProductName] = useState(null);
   const [productPrice, setProductPrice] = useState(null)
-  const [categoryId, setCategoryId] = useState(null)
   const [productLoc, setProductLoc] = useState(null)
-  const [productQuality, setProductQuality] = useState(null);
+  const [productAmount, setProductAmount] = useState(null);
   const [productCatId, setProductCatId] = useState(null)
   const categories = [
     {
@@ -79,12 +80,10 @@ export default function AddProduct() {
     const fileExt = fileName.substring(fileName.lastIndexOf('.') + 1);
     const metadata = { contentType: `image/${fileExt}` };
     const storageRef = ref(storage, `Upload/${fileName}`);
-    console.log('fileName', fileName);
-    console.log('img', image)
-
 
     const response = await fetch(image);
     const blob = await response.blob();
+    let imgUrl;
     // const blob = await new Promise((resolve, reject) => {
     //   const xhr = new XMLHttpRequest();
     //   xhr.onload = function () {
@@ -109,41 +108,68 @@ export default function AddProduct() {
 
 
 
-    uploadBytes(storageRef, blob, metadata)
-      .then(() => {
-        console.log('Uploaded a blob or file!')
-      })
-      .catch(err => console.log('errr', err))
-      .finally(() => setUploading(false));
-    //     const uploadTask = uploadBytesResumable(storageRef, blob, metadata);
-    //     uploadTask.on('state_changed',
-    //       (snapshot) => {
-    //         console.log('snapshot', snapshot.bytesTransferred, snapshot.totalBytes)
+    // uploadBytes(storageRef, blob, metadata)
+    //   .then(() => {
+    //     console.log('Uploaded a blob or file!')
+    //   })
+    //   .catch(err => console.log('errr', err))
+    //   .finally(() => setUploading(false));
+    const uploadTask = uploadBytesResumable(storageRef, blob, metadata);
+    uploadTask.on('state_changed',
+      (snapshot) => {
+        console.log('snapshot', snapshot.bytesTransferred, snapshot.totalBytes)
 
-    //         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-    //         console.log('progres', progress);
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log('progres', progress);
 
-    //         switch (snapshot.state) {
-    //           case 'paused':
-    //             console.log('Upload is paused');
-    //             break;
-    //           case 'running':
-    //             console.log('Upload is running');
-    //             break;
-    //         }
-    //       },
-    //       (error) => {
-    //         console.log('error', error)
-    //       },
-    //       () => {
-    //         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-    //           console.log('File available at', downloadURL);
-    //         });
-    //       }
-    //     );
-
+        switch (snapshot.state) {
+          case 'paused':
+            console.log('Upload is paused');
+            break;
+          case 'running':
+            console.log('Upload is running');
+            break;
+        }
+      },
+      (error) => console.log('error', error),
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          console.log('File available at', downloadURL);
+          imgUrl = downloadURL;
+        });
+      }
+    );
+    return imgUrl;
   }
 
+  const sendProductToServer = async () => {
+    let imgUrl = await uploadImage();
+    console.log('imgUr', imgUrl)
+    // let a = await imgUrl;
+    // console.log('imgUr', a)
+
+
+    const data = {
+      ner: producName,
+      // serNum:,
+      img: imgUrl,
+      location: productLoc,
+      categoryId: productCatId,
+      come_date: Date(),
+      shirheg: productAmount,
+      une: productPrice
+    }
+    const result = await axios.post(`${restUrl}/api/products`, data);
+    console.log('result.data', result.data);
+
+    // axios.post(`${restUrl}/api/products`, data).then(result => console.log('result.dat', result.data));
+    // uploadImage().then(imgUrl => {
+    //   console.log('imgUrl', imgUrl)
+    //   
+
+    // }).catch(error => console.log('err', error));
+
+  }
   useEffect(() => {
     (async () => {
       if (Platform.OS !== "web") {
@@ -222,9 +248,6 @@ export default function AddProduct() {
             </View>
             {image && <Image source={{ uri: image }} style={{ width: 250, height: 200, borderColor: "red", borderWidth: 2, }} resizeMode="contain" />}
           </View>
-
-
-          {!uploading ? <Button title='Upload Image' onPress={uploadImage} /> : <ActivityIndicator size={'small'} color='black' />}
           {/* image picker */}
 
           {/* information  */}
@@ -253,8 +276,8 @@ export default function AddProduct() {
             placeholder="Барааны тоо ширхэг"
             icon="plus-square"
             keyboardType="numeric"
-            value={productQuality}
-            onChangeText={setProductQuality}
+            value={productAmount}
+            onChangeText={setProductAmount}
             errorText="Барааны тоог оруулах ёстой."
             errorShow={false}
           />
@@ -278,11 +301,18 @@ export default function AddProduct() {
             values={categories.map(el => el.id)}
             onValueChange={(value) => {
               console.log(value);
-              //  id ni avna
               setProductCatId(value)
             }}
           />
-
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-evenly", paddingVertical: 20 }}
+          >
+            <MyButton
+              title="Буцах"
+              onPress={() => props.navigation.goBack()}
+            />
+            <MyButton title="Бүртгэх" onPress={sendProductToServer} />
+          </View>
         </ScrollView>
 
       </Animatable.View>
