@@ -32,6 +32,7 @@ const css = StyleSheet.create({
     marginHorizontal: 12,
     borderRadius: 7,
     flexDirection: "row",
+
   },
   searchText: {
     color: "black",

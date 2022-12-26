@@ -7,11 +7,13 @@ import { restUrl } from '../../Constants';
 const windowWidth = Dimensions.get('window').width;
 const Product = ({ data }) => {
   const navigation = useNavigation();
+  // console.log('data', data);
+
   // console.log(`./../../assets/${data.img}`)
 
   return (
     <TouchableOpacity style={css.proContainer}
-      onPress={() => navigation.navigate("Бараа", { product: data })}
+      onPress={() => navigation.navigate("Барааны мэдээлэл", { product: data })}
     >
 
       <Text style={css.proName}>{data.ner}</Text>
@@ -22,7 +24,14 @@ const Product = ({ data }) => {
         flex: 1,
         margin: 4
       }}>
-        <Image style={css.proImage} source={require(`../../assets/parado1.jpg`)} />
+        {data.img ? data.img.startsWith("https://firebasestorage") ?
+          (<Image style={css.proImage} source={{ uri: data.img }} />) :
+          (<Image style={css.proImage} source={{ uri: restUrl + "/upload/" + data.img }} />) : null}
+        {/* {data.img.startsWith("https://firebasestorage") ?
+          (<Image style={css.proImage} source={{ uri: data.img }} />) :
+          (<Image style={css.proImage} source={{ uri: restUrl + "/upload/" + data.img }} />)
+        } */}
+        {/* <Image style={css.proImage} source={require(`../../assets/parado1.jpg`)} /> */}
       </View>
       <View style={css.flex}>
         <Text style={css.countText}>{data.shirheg} ш</Text>

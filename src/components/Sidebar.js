@@ -42,7 +42,7 @@ export default function SideBar(props) {
             }
             onPress={() => {
               setActive('first')
-              props.navigation.navigate("Нүүр")
+              props.navigation.navigate("Home")
             }}
           />
           <Drawer.Item

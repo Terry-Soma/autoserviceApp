@@ -1,14 +1,19 @@
 import { Button, Image, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { ScrollView } from 'react-native-gesture-handler';
 import { restUrl } from '../../Constants';
 import MyButton from '../components/MyButton';
-import MyInput from '../components/ProductInput';
+
 import { Feather } from '@expo/vector-icons'
 import thousandify from 'thousandify';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 const ProductScreen = props => {
+  useLayoutEffect(() => {
+    props.navigation.setOptions({
+      headerShown: false,
+    });
+  }, []);
   const { product } = props.route?.params;
   const [quantity, setQuantity] = useState("1");
   // const [price, setPrice] = useState(product.une)
@@ -42,7 +47,7 @@ const ProductScreen = props => {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>
       <ScrollView showsVerticalScrollIndicator={false} style={[{ marginLeft: 8 }]}>
         {product.img ? (
           <View style={{
@@ -51,7 +56,10 @@ const ProductScreen = props => {
             alignItems: "center",
             marginTop: 10
           }}>
-            <Image style={css.proImage} source={require('./../../assets/parado1.jpg')} />
+            {product.img.startsWith("https://firebasestorage") ?
+              (<Image style={css.proImage} source={{ uri: product.img }} />) :
+              (<Image style={css.proImage} source={{ uri: restUrl + "/upload/" + product.img }} />)}
+            {/* <Image style={css.proImage} source={require('./../../assets/parado1.jpg')} /> */}
           </View>
         ) : (
           null

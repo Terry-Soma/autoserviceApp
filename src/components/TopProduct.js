@@ -97,7 +97,7 @@ const TopProduct = () => {
               ({ item, index }) => <TouchableOpacity
                 activeOpacity={0.7}
                 onPress={() => {
-                  navigation.navigate("Бараа", { product: item })
+                  navigation.navigate("Барааны мэдээлэл", { product: item })
                 }}
                 style={{ paddingHorizontal: 4, }}
               >
@@ -109,8 +109,12 @@ const TopProduct = () => {
                     paddingHorizontal: 4,
                     margin: 4
                   }}>
-                    {/* <Image style={css.proImage} source={{ uri: restUrl + "/upload/" + item.img }} /> */}
-                    <Image style={css.proImage} source={require(`./../../assets/favicon.png`)} />
+                    {item.img.startsWith("https://firebasestorage") ?
+                      (<Image style={css.proImage} source={{ uri: item.img }} />) :
+                      (<Image style={css.proImage} source={{ uri: restUrl + "/upload/" + item.img }} />)
+                    }
+
+                    {/* <Image style={css.proImage} source={require(`./../../assets/favicon.png`)} /> */}
 
 
                   </View>
@@ -128,7 +132,6 @@ const TopProduct = () => {
 
   )
 }
-{/* <Image style={css.proImage} source={require('./../../assets/splash.png')} /> */ }
 
 export default TopProduct
 
@@ -184,43 +187,3 @@ const css = StyleSheet.create({
 
 
 })
-{/* zurag baigaa uguig shalgah */ }
-
-{/*  */ }
-/*
- <TouchableOpacity key={index}
-                onPress={() => navigation.navigate("Бүтээгдэхүүн", { id: item.id })}
-              >
-                <Text style={css.proName}>{item.ner}</Text>
-               
-                <Image style={css.proImage} source={{ uri: `${restUrl}/upload/${item.img}` }} />
-                <View style={css.flex}>
-                  <Text style={css.countText}>{item.shirheg} ш байна</Text>
-                  <Text style={css.priceText}>{item.une ? item.une : "123444₮"}₮</Text>
-                </View>
-              </TouchableOpacity>
-  const overrideRenderItem = ({ item, index, section: { title, data } }) => <Text key={index}>Override{item}</Text>
-
-  <SectionList
-        renderItem={({ item, index, section }) => (
-          <Text key={index}>{item}</Text>
-        )}
-        renderSectionHeader={({ section: { title } }) => (
-          <Text style={{ fontWeight: 'bold' }}>{title}</Text>
-        )}
-        sections={[
-          { title: 'Title1', data: ['item1', 'item2'] },
-          { title: 'Title2', data: ['item3', 'item4'] },
-          { title: 'Title3', data: ['item5', 'item6'] }
-        ]}
-        keyExtractor={(item, index) => item + index}
-      />
-      <SectionList
-        renderItem={({ item, index, section }) => <Text key={index}>{item}</Text>}
-        sections={[
-          { title: 'Title1', data: ['item1', 'item2'], renderItem: overrideRenderItem },
-          { title: 'Title2', data: ['item3', 'item4'] },
-          { title: 'Title3', data: ['item5', 'item6'] },
-        ]}
-      />
- */

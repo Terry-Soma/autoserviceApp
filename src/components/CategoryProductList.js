@@ -5,7 +5,8 @@ import Product from './Product';
 import Spinner from './Spinner';
 
 const CategoryProductList = props => {
-  const [products, error, searchProduct, loading] = useProduct(props.data.id);
+
+  const [products, error, searchProduct, loading] = useProduct(props.data.id, props.refreshCatId, props.stopRefresh);
 
 
   // const filteredItems = products.filter(el =>

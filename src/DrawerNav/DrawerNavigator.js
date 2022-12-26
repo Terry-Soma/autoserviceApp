@@ -4,7 +4,9 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import HomeScreen from "../screens/HomeScreen";
 import ProductScreen from "../screens/ProductScreen";
 import SideBar from "../components/Sidebar";
-import AddProduct from "../screens/AddProduct";
+import AddProductScreen from "../screens/AddProductScreen";
+import SettingsScreen from "../screens/SettingsScreen";
+
 
 const Drawer = createDrawerNavigator();
 
@@ -16,7 +18,7 @@ export default () => {
   // }
 
   return (
-    <Drawer.Navigator initialRouteName="Нүүр"
+    <Drawer.Navigator initialRouteName="Home"
       screenOptions={{
         headerShown: true,
         drawerType: 'back',
@@ -25,22 +27,15 @@ export default () => {
         headerTintColor: "white",
         headerTitleStyle: { fontSize: 16, },
       }}
-
       drawerContent={props => <SideBar {...props} />}
     >
-      <Drawer.Screen name="Нүүр" component={HomeScreen} options={() => ({
-        headerBackTitleVisible: false,
-        headerTruncatedBackTitle: "",
-      })} />
-      <Drawer.Screen name="Бараа нэмэх" component={AddProduct} options={() => ({
-        headerBackTitleVisible: true,
-        headerTruncatedBackTitle: "Буцах",
-      })} />
+      <Drawer.Screen name="Home" component={HomeScreen} />
+      <Drawer.Screen name="Бараа нэмэх" component={AddProductScreen} />
 
-      {/* <Drawer.Screen name="Бараа" component={ProductScreen} options={() => ({
-        headerBackTitleVisible: false,
-        headerTruncatedBackTitle: "",
-      })} /> */}
+      <Drawer.Screen name="Барааны мэдээлэл" component={ProductScreen} />
+
+      <Drawer.Screen name="Тохиргоо" component={SettingsScreen} />
+
     </Drawer.Navigator >
   );
 };
