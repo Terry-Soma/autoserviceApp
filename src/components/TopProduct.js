@@ -1,95 +1,23 @@
-import { StyleSheet, Text, View, Image, SectionList, Pressable } from 'react-native'
-import React, { useState } from 'react'
-import { FlatList, ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
+import { StyleSheet, Text, View, Image } from 'react-native'
+import React from 'react'
+import { FlatList, TouchableOpacity } from 'react-native-gesture-handler'
 import { useNavigation } from '@react-navigation/native'
-import { restUrl } from '../../Constants';
+import useTopProduct from '../hooks/useTopProduct';
 
-const TopProduct = () => {
+const TopProduct = props => {
   const navigation = useNavigation();
-  const [data, setData] = useState([{
-    "categoryId": 1,
-    "come_date": "2022-02-13",
-    "id": 1,
-    "img": "parado1.jpg",
-    "location": "Гаражны хойд тавиур",
-    "ner": "95 урд гэрэл",
-    "serNum": "",
-    "shirheg": 12,
-    "une": 1001232,
-    "cner": "Гэрэл дохио"
+  const [topProducts, loading, error] = useTopProduct();
 
-  },
-  {
-    "categoryId": 1,
-    "come_date": "2022-02-13",
-    "id": 2,
-    "img": "parado1.jpg",
-    "location": "Гаражны хойд тавиур",
-    "ner": "185 урд гэрэл",
-    "serNum": "",
-    "shirheg": 12,
-    "une": 100,
-    "cner": "Гэрэл дохио"
-
-  },
-  {
-    "categoryId": 1,
-    "come_date": "2022-02-13",
-    "id": 3,
-    "img": "parado1.jpg",
-    "location": "Гаражны хойд тавиур",
-    "ner": "185 хойд бөгсний гэрэл",
-    "serNum": "",
-    "shirheg": 12,
-    "une": 100,
-    "cner": "Гэрэл дохио"
-  },
-  {
-    "categoryId": 1,
-    "come_date": "2022-02-13",
-    "id": 4,
-    "img": "parado1.jpg",
-    "location": "Гаражны хойд тавиур",
-    "ner": "95 дохио",
-    "serNum": "",
-    "shirheg": 12,
-    "une": 100,
-    "cner": "Гэрэл дохио"
-
-  },
-  {
-    "categoryId": 1,
-    "come_date": "2022-02-13",
-    "id": 5,
-    "img": "parado1.jpg",
-    "location": "Гаражны хойд тавиур",
-    "ner": "185 дохио",
-    "serNum": "",
-    "shirheg": 12,
-    "une": 100,
-    "cner": "Гэрэл дохио"
-
-  },
-  {
-    "categoryId": 1,
-    "come_date": "2022-02-13",
-    "id": 6,
-    "img": "parado1.jpg",
-    "location": "Гаражны хойд тавиур",
-    "ner": "185 нэмэлт гүперний гэрэл",
-    "serNum": "",
-    "shirheg": 12,
-    "une": 100,
-    "cner": "Гэрэл дохио"
-
-  }]);
   return (
 
     <View style={{ marginLeft: 8, flex: 1, padding: 2, marginBottom: 12 }}>
-
+      {loading && <Spinner showText={false} />}
+      {error && (
+        <Text style={{ marginLeft: 15, color: "red" }}>{error}</Text>
+      )}
       {
-        data ? (
-          <FlatList data={data}
+        topProducts.length > 0 && topProducts ? (
+          <FlatList data={topProducts}
             keyExtractor={(item) => item.id}
             horizontal
             showsHorizontalScrollIndicator={false}
@@ -109,14 +37,7 @@ const TopProduct = () => {
                     paddingHorizontal: 4,
                     margin: 4
                   }}>
-                    {item.img.startsWith("https://firebasestorage") ?
-                      (<Image style={css.proImage} source={{ uri: item.img }} />) :
-                      (<Image style={css.proImage} source={{ uri: restUrl + "/upload/" + item.img }} />)
-                    }
-
-                    {/* <Image style={css.proImage} source={require(`./../../assets/favicon.png`)} /> */}
-
-
+                    <Image style={css.proImage} source={{ uri: item.img }} />)
                   </View>
 
                   <View style={css.flex}>

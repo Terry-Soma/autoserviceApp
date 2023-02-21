@@ -8,12 +8,9 @@ import { Feather } from '@expo/vector-icons'
 import thousandify from 'thousandify';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
+
 const ProductScreen = props => {
-  useLayoutEffect(() => {
-    props.navigation.setOptions({
-      headerShown: false,
-    });
-  }, []);
+
   const { product } = props.route?.params;
   const [quantity, setQuantity] = useState("1");
   // const [price, setPrice] = useState(product.une)

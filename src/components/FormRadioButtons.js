@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TextInput } from "react-native";
-import { mainColor, lightColor, textColor } from "../../Constants";
+import { StyleSheet, Text, View, } from "react-native";
+import { mainColor, textColor } from "../../Constants";
 import Feather from "react-native-vector-icons/Feather";
 import {
   RadioButton,

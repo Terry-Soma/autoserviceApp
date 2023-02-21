@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, SafeAreaView, ScrollView, Button, Platform, Alert, Image, Linking } from 'react-native'
-// import { SafeAreaView } from "react-native-safe-area-context";
+import { View, Text, ScrollView, SafeAreaView, Platform, Alert, Image, } from 'react-native';
+
 import * as ImagePicker from 'expo-image-picker';
-import ImagePickerExample from "../components/Test";
 import { ActivityIndicator, Card, Button as PaparButton, Title, Paragraph, Avatar, IconButton } from "react-native-paper";
-import { app, storage } from '../../firebaseConfig'
-import { getDownloadURL, ref, uploadBytes, uploadBytesResumable } from 'firebase/storage'
+import { storage } from '../../firebaseConfig'
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import * as Animatable from "react-native-animatable";
 import FormText from "../components/FormText";
 import thousandify from 'thousandify'
@@ -56,7 +55,6 @@ export default function AddProduct(props) {
     }
   };
   const uploadImage = async () => {
-    console.log('imgurl ', image);
 
     const fileName = image.substring(image.lastIndexOf('/') + 1);
     const fileExt = fileName.substring(fileName.lastIndexOf('.') + 1);
@@ -68,9 +66,6 @@ export default function AddProduct(props) {
     const blob = await response.blob();
 
     const uploadTask = uploadBytesResumable(storageRef, blob, metadata);
-
-
-    // const task = storageRef.put(blob, metadata);
 
     return new Promise((resolve, reject) => {
       uploadTask.on('state_changed',
@@ -92,16 +87,12 @@ export default function AddProduct(props) {
         (error) => reject(error),
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            console.log('File available at', downloadURL);
             resolve(downloadURL);
           });
         }
       );
-
     });
   }
-
-
   const sendProductToServer = async () => {
 
     setSaving(true)
@@ -125,11 +116,12 @@ export default function AddProduct(props) {
     console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.")
     setSaving(false)
 
-    props.navigation.navigate('Нүүр', {
+    props.navigation.navigate('Home', {
       createdProduct: result.data.data
     });
 
   }
+
   useEffect(() => {
     (async () => {
       if (Platform.OS !== "web") {
@@ -138,20 +130,6 @@ export default function AddProduct(props) {
           Alert.alert(
             "Анхаар!",
             "Уучлаарай, та утаснаас зураг сонгох эрхийг зөвшөөрч байж зураг оруулах боломжтой. Та утасныхаа тохиргооны цонхноос энэ апп-д зураг үзэх бичих эрхийг нээж өгнө үү.",
-            [{
-              text: "Тохиргоог нээх",
-              onPress: () => {
-                if (Platform.OS === "ios") Linking.openURL("app-settings:");
-                // else {
-                //   // android intent
-                //   IntentLauncher.startActivityAsync(
-                //     IntentLauncher.ACTION_APPLICATION_SETTINGS
-                //   );
-                // }
-              }
-            },
-            { text: "Ok", onPress: () => { } }
-            ]
           );
         }
       }
@@ -183,7 +161,7 @@ export default function AddProduct(props) {
           style={{
             flex: 8,
             paddingHorizontal: 16,
-            paddingVertical: 30,
+            paddingVertical: 16,
             backgroundColor: lightColor,
             borderTopLeftRadius: 30,
             borderTopRightRadius: 30,
@@ -191,14 +169,13 @@ export default function AddProduct(props) {
           }}
         >
           <ScrollView showsVerticalScrollIndicator={false} style={{
-            borderColor: "red", borderWidth: 2,
+
           }}>
             {/* image picker start */}
             <View style={{
               flex: 1, alignItems: 'center', justifyContent: 'center',
               paddingHorizontal: 2,
-              borderColor: "red", borderWidth: 2,
-              paddingBottom: 10,
+              paddingVertical: 10,
             }}>
               <View style={{ flexDirection: "row", alignSelf: "stretch", marginVertical: 10, justifyContent: "space-evenly", }}>
                 <PaparButton icon="folder-image" mode="text" onPress={pickImage} textColor={mainColor} >
@@ -220,7 +197,7 @@ export default function AddProduct(props) {
               value={producName}
               onChangeText={setProductName}
               errorText="Барааны нэрийн урт 4-20 тэмдэгтээс тогтоно."
-              errorShow={true}
+              errorShow={false}
             />
 
             <FormText
@@ -273,7 +250,6 @@ export default function AddProduct(props) {
               <MyButton title="Бүртгэх" onPress={sendProductToServer} />
             </View>
           </ScrollView>
-
         </Animatable.View>)}
     </SafeAreaView>
   )

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, ScrollView, View, Alert, RefreshControl } from 'react-native'
+import { StyleSheet, SafeAreaView, Text, ScrollView, View, Alert, RefreshControl } from 'react-native'
 import React, { useCallback, useLayoutEffect, useState } from 'react'
 import Search from '../components/Search'
 import Spinner from '../components/Spinner';
@@ -6,33 +6,19 @@ import Spinner from '../components/Spinner';
 import useCategory from '../hooks/useCategory';
 import CategoryProductList from '../components/CategoryProductList';
 import TopProduct from '../components/TopProduct';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { mainColor } from '../../Constants';
-import { Button } from 'react-native-paper';
+
 const HomeScreen = ({ navigation, route }) => {
   const [refreshCatId, setRefreshCatId] = useState(null)
   const [localSearchText, setLocalSearchText] = useState("");
   const [serverSearchText, setServerSearchText] = useState("");
   const [refreshing, setRefreshing] = useState(false)
   const [categories, error, loading] = useCategory();
+
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: () => (
-        <View>
-          <Button title="Hel" />
-        </View>
-        // <HeaderButtons HeaderButtonComponent={MyHeaderButton}>
-        //   <Item
-        //     title="Цэс"
-        //     iconName="ios-menu"
-        //     onPress={() => navigation.toggleDrawer()}
-        //   />
-        // </HeaderButtons>
-      ),
-      title: "Амазон номын дэлгүүр",
-      // headerShown: false,
+      title: "Сэлбэг худалдаа",
     });
-  }, [navigation, localSearchText]);
+  }, [navigation]);
 
 
   if (route.params && route.params.createdProduct) {
@@ -63,10 +49,10 @@ const HomeScreen = ({ navigation, route }) => {
             value={localSearchText}
             onValueChange={setLocalSearchText}
             onFinishEnter={searchFromServer} />
+
           {/* neg scroll View mash ih erelttei */}
           <ScrollView style={{
-            marginTop: 16, borderTopColor: "red",
-            borderTopWidth: 2
+            marginTop: 16,
           }}
             refreshControl={
               <RefreshControl
@@ -83,7 +69,7 @@ const HomeScreen = ({ navigation, route }) => {
               <Text style={{ fontSize: 24, fontWeight: "500", color: "#100E0D", width: "100%", textAlign: "center" }}>Их эрэлттэй </Text>
             </View>
 
-            <TopProduct />
+            {/* <TopProduct searchLocalValue={localSearchText} /> */}
 
             {categories ? categories.map(category => (
               <CategoryProductList

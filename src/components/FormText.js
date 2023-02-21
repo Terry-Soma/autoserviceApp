@@ -5,8 +5,8 @@ import * as Animatable from "react-native-animatable";
 
 const FormText = props => {
   return (
-    <View>
-      <Text style={{ fontSize: 16, paddingTop: 35, color: "#05375a" }}>
+    <View style={{ marginVertical: 10 }}>
+      <Text style={{ fontSize: 16, paddingTop: 12, color: "#05375a", }}>
         {props.label}
       </Text>
       <View

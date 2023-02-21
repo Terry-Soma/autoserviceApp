@@ -9,6 +9,7 @@ export default () => {
 
   useEffect(() => {
     setLoading(true);
+
     axios.get(`${restUrl}/api/categories`)
       .then(result => {
         console.log("Категорийг амжилттай хүлээж авлаа...");

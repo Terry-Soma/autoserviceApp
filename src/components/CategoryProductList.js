@@ -9,9 +9,9 @@ const CategoryProductList = props => {
   const [products, error, searchProduct, loading] = useProduct(props.data.id, props.refreshCatId, props.stopRefresh);
 
 
-  // const filteredItems = products.filter(el =>
-  //   el.ner.toLowerCase().includes(props.searchLocalValue.toLowerCase())
-  // );
+  const filteredItems = products.filter(el =>
+    el.ner.toLowerCase().includes(props.searchLocalValue.toLowerCase())
+  );
 
   return (
     <View style={{ marginLeft: 8, }}>
@@ -27,7 +27,7 @@ const CategoryProductList = props => {
       <FlatList
         horizontal
         showsHorizontalScrollIndicator={false}
-        data={products}
+        data={filteredItems}
         keyExtractor={product => product.id}
         renderItem={({ item }) => <Product data={item} />}
       />

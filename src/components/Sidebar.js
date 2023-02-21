@@ -17,7 +17,7 @@ export default function SideBar(props) {
             source={require("../../assets/splash.png")}
             size={50}
           />
-          <View style={{ marginLeft: 15 }}>
+          <View style={{ marginLeft: 8 }}>
             <Title
               style={{
                 fontSize: 16,
@@ -26,7 +26,7 @@ export default function SideBar(props) {
                 lineHeight: 23
               }}
             >
-              Автомашин сэлбэг худалдаа
+              Автомашин сэлбэг
             </Title>
             <Caption style={{ lineHeight: 14 }}>
               Тавтай морил
