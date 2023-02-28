@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, Text, View, } from "react-native";
-import { mainColor, textColor } from "../../Constants";
 import Feather from "react-native-vector-icons/Feather";
+import { useTheme } from "react-native-paper";
 import {
   RadioButton,
   Text as RadioText,
@@ -9,9 +9,10 @@ import {
 } from "react-native-paper";
 
 export default props => {
+  const theme = useTheme();
   return (
     <View>
-      <Text style={{ fontSize: 16, paddingTop: 35, color: textColor }}>
+      <Text style={{ fontSize: 16, paddingTop: 35, color: theme.colors.textColor }}>
         {props.label}
       </Text>
       <View
@@ -25,7 +26,7 @@ export default props => {
           paddingVertical: 5
         }}
       >
-        <Feather name={props.icon} size={20} color={textColor}
+        <Feather name={props.icon} size={20} color={theme.colors.textColor}
           style={{ paddingTop: 10 }} />
         <View style={{ flexDirection: "column" }}>
           {props.data.map((el, index) => {
@@ -33,7 +34,7 @@ export default props => {
             return (
               <View key={index} style={styles.row}>
                 <RadioButton
-                  color={mainColor}
+                  color={theme.colors.mainColor}
                   value={categoryId}
                   onPress={() => {
                     props.onValueChange(categoryId);
@@ -45,7 +46,7 @@ export default props => {
                     props.onValueChange(categoryId);
                   }}
                 >
-                  <RadioText style={styles.text}>{el}</RadioText>
+                  <RadioText style={[styles.text, { color: theme.colors.textColor }]}>{el}</RadioText>
                 </TouchableRipple>
               </View>
             );
@@ -57,6 +58,6 @@ export default props => {
 };
 
 const styles = StyleSheet.create({
-  text: { marginTop: 12, color: textColor, marginTop: 10 },
+  text: { marginTop: 12, marginTop: 10 },
   row: { flexDirection: "row", marginLeft: 10 }
 });

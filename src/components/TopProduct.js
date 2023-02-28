@@ -3,21 +3,24 @@ import React from 'react'
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler'
 import { useNavigation } from '@react-navigation/native'
 import useTopProduct from '../hooks/useTopProduct';
+import Spinner from './Spinner';
 
 const TopProduct = props => {
   const navigation = useNavigation();
   const [topProducts, loading, error] = useTopProduct();
-
+  const filteredItems = topProducts.filter(el =>
+    el.ner.toLowerCase().includes(props.searchLocalValue.toLowerCase())
+  );
   return (
 
     <View style={{ marginLeft: 8, flex: 1, padding: 2, marginBottom: 12 }}>
-      {loading && <Spinner showText={false} />}
+      {loading && <Spinner showText={false} circleColor="#333" />}
       {error && (
         <Text style={{ marginLeft: 15, color: "red" }}>{error}</Text>
       )}
       {
-        topProducts.length > 0 && topProducts ? (
-          <FlatList data={topProducts}
+        filteredItems.length > 0 && filteredItems ? (
+          <FlatList data={filteredItems}
             keyExtractor={(item) => item.id}
             horizontal
             showsHorizontalScrollIndicator={false}
@@ -31,15 +34,13 @@ const TopProduct = props => {
               >
                 <View style={css.proContainer}>
                   <Text style={css.proName}>{item.ner}</Text>
-
                   <View style={{
                     flex: 1,
                     paddingHorizontal: 4,
                     margin: 4
                   }}>
-                    <Image style={css.proImage} source={{ uri: item.img }} />)
+                    {item.img ? (<Image style={css.proImage} source={{ uri: item.img }} />) : (<Image style={css.proImage} source={require("../../assets/parado1.jpg")} />)}
                   </View>
-
                   <View style={css.flex}>
                     <Text style={css.countText}>{item.shirheg} ш</Text>
                     <Text style={css.priceText}>{item.une ? item.une : "123444₮"}₮</Text>

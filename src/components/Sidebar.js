@@ -1,12 +1,13 @@
 import React from "react";
-import { View, Text, Image, Alert, } from 'react-native'
-import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
+import { View, Image, Alert, } from 'react-native'
+import { DrawerContentScrollView, } from "@react-navigation/drawer";
 import { Feather } from '@expo/vector-icons';
 import { Avatar, Caption, Title, Drawer } from "react-native-paper";
 import { Button } from "react-native-paper";
 import { EvilIcons } from '@expo/vector-icons';
+import { useTheme } from 'react-native-paper';
 export default function SideBar(props) {
-
+  const theme = useTheme();
   const [active, setActive] = React.useState('');
 
   return (
@@ -33,36 +34,46 @@ export default function SideBar(props) {
             </Caption>
           </View>
         </View>
-        <Drawer.Section title="Үндсэн цэс" style={{ color: "#fff", }}>
+        <Drawer.Section title="Үндсэн цэс" >
           <Drawer.Item
             label="Нүүр"
-            active={active === 'first'}
-            icon={({ color, size }) =>
-              <Feather name="home" size={size} color={color} />
+            active={active === '1'}
+            icon={({ size }) =>
+              <Feather name="home" size={size} color={theme.colors.scrim} />
             }
             onPress={() => {
-              setActive('first')
+              setActive('1')
               props.navigation.navigate("Home")
             }}
+
           />
           <Drawer.Item
             label="Бараа нэмэх"
-            active={active === 'second'}
-            icon={({ color, size }) =>
-              <Feather name="package" size={size} color={color} />
+            active={active === '2'}
+            icon={({ size }) =>
+              <Feather name="package" size={size} color={theme.colors.scrim} />
             }
             onPress={() => {
-              setActive('second')
+              setActive('2')
               props.navigation.navigate("Бараа нэмэх")
             }
             }
           />
+          <Drawer.Item
+            label="Утасны дугаар"
+            active={active === '3'}
+            icon={({ size }) =>
+              <Feather name="phone" size={size} color={theme.colors.scrim} />
+            }
+            onPress={() => {
+              setActive('3')
+              props.navigation.navigate("Утасны мэдээлэл")
+            }
+            }
+          />
+
         </Drawer.Section>
-        {/* <Drawer.CollapsedItem
-          focusedIcon="inbox"
-          unfocusedIcon="inbox-outline"
-          label="Inbox"
-        /> */}
+
 
 
 
@@ -73,25 +84,32 @@ export default function SideBar(props) {
               Alert.alert("Засвар", "Одоогоор энэ функц хөгжүүлэгдэж байна")
               props.navigation.navigate("Тохиргоо")
             }}
-            icon={({ color, size }) => (
-              <EvilIcons name="gear" size={size} color={color} />
+            icon={({ size }) => (
+              <EvilIcons name="gear" size={size} />
             )}
+          />
+          <Drawer.Item
+            label="Бараа засах"
+            active={active === '3'}
+            icon={({ size }) =>
+              <Feather name="package" size={size} color={theme.colors.scrim} />
+            }
+            onPress={() => {
+              setActive('3')
+              props.navigation.navigate("Бараа засах")
+            }
+            }
           />
 
           <Button
-            icon={({ size, color, direction }) => (
+            icon={({ size, }) => (
               <Image
                 source={require('./../../assets/favicon.png')}
-                style={[
-                  {
-                    transform: [{ scaleX: direction === 'rtl' ? -1 : 1 }],
-                  },
-                  {
-                    width: size,
-                    height: size,
-                    tintColor: color
-                  }
-                ]}
+                style={{
+                  width: size,
+                  height: size,
+                  tintColor: theme.colors.scrim
+                }}
               />
             )}
           >
@@ -99,8 +117,6 @@ export default function SideBar(props) {
           </Button>
         </Drawer.Section>
       </DrawerContentScrollView >
-
-
     </View >
   )
 

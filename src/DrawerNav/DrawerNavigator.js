@@ -6,6 +6,9 @@ import ProductScreen from "../screens/ProductScreen";
 import SideBar from "../components/Sidebar";
 import AddProductScreen from "../screens/AddProductScreen";
 import SettingsScreen from "../screens/SettingsScreen";
+import PhoneInfoScreen from "../screens/PhoneInfoScreen";
+
+import { appbarColor } from "../../Constants";
 
 
 const Drawer = createDrawerNavigator();
@@ -22,8 +25,7 @@ export default () => {
       screenOptions={{
         headerShown: true,
         drawerType: 'back',
-        overlayColor: '#00000044',
-        headerStyle: { backgroundColor: "#3498DB" },
+        headerStyle: { backgroundColor: appbarColor },
         headerTintColor: "white",
         headerTitleStyle: { fontSize: 16, },
       }}
@@ -33,6 +35,7 @@ export default () => {
       <Drawer.Screen name="Бараа нэмэх" component={AddProductScreen} />
 
       <Drawer.Screen name="Барааны мэдээлэл" component={ProductScreen} />
+      <Drawer.Screen name="Утасны мэдээлэл" component={PhoneInfoScreen} />
 
       <Drawer.Screen name="Тохиргоо" component={SettingsScreen} />
 

@@ -1,22 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView, SafeAreaView, Platform, Alert, Image, } from 'react-native';
-
+import axios from 'axios'
 import * as ImagePicker from 'expo-image-picker';
-import { ActivityIndicator, Card, Button as PaparButton, Title, Paragraph, Avatar, IconButton } from "react-native-paper";
+import { Button as PaparButton, } from "react-native-paper";
 import { storage } from '../../firebaseConfig'
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import * as Animatable from "react-native-animatable";
 import FormText from "../components/FormText";
-import thousandify from 'thousandify'
-import { StatusBar } from "expo-status-bar";
 import FormRadioButtons from "../components/FormRadioButtons";
-import { lightColor, mainColor, restUrl } from "../../Constants";
-import axios from 'axios'
+import { restUrl } from "../../Constants";
 import MyButton from "../components/MyButton";
 import useCategory from "../hooks/useCategory";
 import Spinner from "../components/Spinner";
-//             "serNum": "",
+import { useTheme } from 'react-native-paper';
 export default function AddProduct(props) {
+  const theme = useTheme();
   const [image, setImage] = useState();
   const [saving, setSaving] = useState(false)
   const [producName, setProductName] = useState(null);
@@ -24,6 +22,7 @@ export default function AddProduct(props) {
   const [productLoc, setProductLoc] = useState(null)
   const [productAmount, setProductAmount] = useState(null);
   const [productCatId, setProductCatId] = useState(null)
+
   const [categories, error, loading] = useCategory();
 
   const takeImage = async () => {
@@ -95,10 +94,15 @@ export default function AddProduct(props) {
   }
   const sendProductToServer = async () => {
 
+    if (!image) {
+      Alert.alert("Та барааны зургаа оруулна уу")
+      return;
+    }
     setSaving(true)
+
     var t0 = performance.now()
     let imgUrl = await uploadImage();
-    console.log('imgUr', imgUrl)
+    var t1 = performance.now()
 
     const data = {
       ner: producName,
@@ -112,7 +116,6 @@ export default function AddProduct(props) {
     }
     const result = await axios.post(`${restUrl}/api/products`, data);
     console.log('result.data', result.data);
-    var t1 = performance.now()
     console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.")
     setSaving(false)
 
@@ -138,17 +141,16 @@ export default function AddProduct(props) {
 
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#3498DB" }}>
-      <StatusBar backgroundColor={mainColor} barStyle="dark-content" />
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.mainColor }}>
       <View
         style={{
           flex: 1,
           paddingVertical: 10,
           paddingHorizontal: 20,
-          backgroundColor: mainColor
+          backgroundColor: theme.colors.mainColor
         }}
       >
-        <Text style={{ fontSize: 24, color: lightColor, textAlign: "center" }}>
+        <Text style={{ fontSize: 24, color: theme.colors.secondaryColor, textAlign: "center" }}>
           Та барааны мэдээллээ оруулна уу
         </Text>
 
@@ -162,7 +164,7 @@ export default function AddProduct(props) {
             flex: 8,
             paddingHorizontal: 16,
             paddingVertical: 16,
-            backgroundColor: lightColor,
+            backgroundColor: theme.colors.secondaryColor,
             borderTopLeftRadius: 30,
             borderTopRightRadius: 30,
 
@@ -178,10 +180,10 @@ export default function AddProduct(props) {
               paddingVertical: 10,
             }}>
               <View style={{ flexDirection: "row", alignSelf: "stretch", marginVertical: 10, justifyContent: "space-evenly", }}>
-                <PaparButton icon="folder-image" mode="text" onPress={pickImage} textColor={mainColor} >
+                <PaparButton icon="folder-image" mode="text" onPress={pickImage} textColor={theme.colors.mainColor} >
                   Галерейгаас  сонгох
                 </PaparButton>
-                <PaparButton icon="camera" mode="contained" onPress={takeImage} buttonColor={mainColor} >
+                <PaparButton icon="camera" mode="contained" onPress={takeImage} buttonColor={theme.colors.mainColor} >
                   Зураг авах
                 </PaparButton>
               </View>

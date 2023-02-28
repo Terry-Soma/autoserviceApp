@@ -1,8 +1,7 @@
 import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
 import React from 'react'
-import { lightColor, mainColor } from "../../Constants";
 
-const Spinner = ({ showText = true, circleColor = lightColor }) => {
+const Spinner = ({ showText = true, circleColor = "#fff" }) => {
   return (
     <View style={{ alignItems: "center", marginVertical: 10, }}>
       <ActivityIndicator size="large" color={circleColor} />

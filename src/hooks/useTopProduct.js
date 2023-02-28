@@ -10,7 +10,8 @@ export default function useTopProduct() {
 
   useEffect(() => {
     setLoading(true);
-    axios.get(`${restUrl}/api/products/`).then(result => {
+
+    axios.get(`${restUrl}/api/products/top-10`).then(result => {
       setTopProducts(result.data.data);
       setError(null);
     })
@@ -23,7 +24,7 @@ export default function useTopProduct() {
             "Сэрвэр ажиллахгүй байна. Та түр хүлээгээд дахин оролдоно уу..";
         setError(message);
       }).finally(() => setLoading(false));
-
+    return () => setTopProducts([])
   }, []);
   return [topProducts, loading, error];
 }

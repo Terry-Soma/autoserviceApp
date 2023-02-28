@@ -11,6 +11,7 @@ const Search = props => {
       <TextInput
         style={css.searchText}
         placeholder='Хайх бараагаа оруулна уу'
+        placeholderTextColor="#F5F5F5"
         autoCapitalize="none"
         autoCorrect={false}
         onChangeText={props.onValueChange}
@@ -28,14 +29,14 @@ export default Search
 const css = StyleSheet.create({
   searchPanel: {
     height: 48,
-    backgroundColor: "#CAD5E2",
+    backgroundColor: "#35495E",
     marginHorizontal: 12,
     borderRadius: 7,
     flexDirection: "row",
 
   },
   searchText: {
-    color: "black",
+    color: "#F5F5F5",
     fontSize: 20,
     flex: 1,
     marginLeft: 2
@@ -44,5 +45,6 @@ const css = StyleSheet.create({
     fontSize: 24,
     alignSelf: "center",
     marginHorizontal: 4,
+    color: "#F5F5F5"
   }
 })

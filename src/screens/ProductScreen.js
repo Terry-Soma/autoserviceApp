@@ -10,8 +10,14 @@ import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const ProductScreen = props => {
-
   const { product } = props.route?.params;
+
+  useLayoutEffect(() => {
+    props.navigation.setOptions({
+      title: "Сэлбэг худалдаа",
+    });
+  }, [props.navigation]);
+
   const [quantity, setQuantity] = useState("1");
   // const [price, setPrice] = useState(product.une)
   const price = product.une * quantity;
@@ -46,22 +52,18 @@ const ProductScreen = props => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView showsVerticalScrollIndicator={false} style={[{ marginLeft: 8 }]}>
-        {product.img ? (
-          <View style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            marginTop: 10
-          }}>
-            {product.img.startsWith("https://firebasestorage") ?
-              (<Image style={css.proImage} source={{ uri: product.img }} />) :
-              (<Image style={css.proImage} source={{ uri: restUrl + "/upload/" + product.img }} />)}
-            {/* <Image style={css.proImage} source={require('./../../assets/parado1.jpg')} /> */}
-          </View>
-        ) : (
-          null
-          // imagepicker
-        )}
+
+        <View style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: 10
+        }}>
+          {product.img ? (
+            <Image style={css.proImage} source={{ uri: product.img }} />
+          ) : (
+            <Image style={css.proImage} source={require("../../assets/parado1.jpg")} />)}
+        </View>
         {/* admin baival  */}
         {/* <MyInput title="Барааны нэр" data={product.ner} />
       <MyInput title="Байршил" data={product.location} />

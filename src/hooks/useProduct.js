@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { restUrl } from '../../Constants'
 
-export default (catId, refreshCatId = null, stopRefresh) => {
+export default (catId, refreshing, setRefreshing) => {
     const [products, setProducts] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -28,13 +28,13 @@ export default (catId, refreshCatId = null, stopRefresh) => {
 
     }, []);
     useEffect(() => {
-        if (refreshCatId !== null) {
+        if (refreshing) {
             setLoading(true);
-            console.log('хайлт ', refreshCatId !== null, "\n");
+            console.log('хайлт ', refreshing !== null, "\n");
 
-            console.log('хайлт эхэллээ refresh controller', refreshCatId, "\n"
+            console.log('хайлт эхэллээ refresh controller', refreshing, "\n"
             );
-            axios.get(`${restUrl}/api/categories/${refreshCatId}/products`).then(result => {
+            axios.get(`${restUrl}/api/categories/${catId}/products`).then(result => {
                 setProducts(result.data.data);
 
                 setError(null);
@@ -47,11 +47,10 @@ export default (catId, refreshCatId = null, stopRefresh) => {
                         message =
                             "Сэрвэр ажиллахгүй байна. Та түр хүлээгээд дахин оролдоно уу..";
                     setError(message);
-                }).finally(() => setLoading(false));
-            stopRefresh(prev => null)
+                }).finally(() => { setLoading(false); setRefreshing(false) });
 
         }
-    }, [refreshCatId])
+    }, [refreshing])
 
 
     return [products, error, searchProduct, loading];

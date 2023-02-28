@@ -8,7 +8,6 @@ import CategoryProductList from '../components/CategoryProductList';
 import TopProduct from '../components/TopProduct';
 
 const HomeScreen = ({ navigation, route }) => {
-  const [refreshCatId, setRefreshCatId] = useState(null)
   const [localSearchText, setLocalSearchText] = useState("");
   const [serverSearchText, setServerSearchText] = useState("");
   const [refreshing, setRefreshing] = useState(false)
@@ -23,11 +22,12 @@ const HomeScreen = ({ navigation, route }) => {
 
   if (route.params && route.params.createdProduct) {
     Alert.alert(route.params.createdProduct.ner + " нэртэй бараа нэмэгдлээ!");
-    setRefreshCatId(route.params.createdProduct.categoryId);/* refresh controller */
+    setRefreshing(true);/* refresh controller */
     delete route.params.createdProduct;
   }
   const onRefresh = useCallback(() => {
     setRefreshing(true);
+
     wait(2000).then(() => setRefreshing(false));
   }, []);
   const wait = (timeout) => {
@@ -56,28 +56,27 @@ const HomeScreen = ({ navigation, route }) => {
           }}
             refreshControl={
               <RefreshControl
-                refreshing={refreshing}
+                // refreshing={refreshing}
                 onRefresh={onRefresh}
                 colors={["#DE4839", "#383CC1", "#6EC72D"]}
-                // progressBackgroundColor={mainColor}
                 // size="large"
                 title="Hello"
               />
             }
           >
-            <View style={{ marginHorizontal: 12, marginVertical: 6, backgroundColor: "#F8C94F", paddingHorizontal: 6, paddingVertical: 6, borderRadius: 12, maxWidth: "50%" }}>
-              <Text style={{ fontSize: 24, fontWeight: "500", color: "#100E0D", width: "100%", textAlign: "center" }}>Их эрэлттэй </Text>
+            <View style={{ marginHorizontal: 12, marginVertical: 6, backgroundColor: "#7DCEA0", paddingHorizontal: 6, paddingVertical: 6, borderRadius: 12, maxWidth: "50%" }}>
+              <Text style={{ fontSize: 24, fontWeight: "500", color: "#2C3E50", width: "100%", textAlign: "center" }}>Их эрэлттэй </Text>
             </View>
 
-            {/* <TopProduct searchLocalValue={localSearchText} /> */}
+            <TopProduct searchLocalValue={localSearchText} />
 
             {categories ? categories.map(category => (
               <CategoryProductList
                 key={category.id}
                 searchLocalValue={localSearchText}
                 searchServerValue={serverSearchText}
-                stopRefresh={setRefreshCatId}
-                refreshCatId={refreshCatId}
+                setRefreshing={setRefreshing}
+                refresh={refreshing}
                 style={{ marginVertical: 10, }}
                 data={category}
               />)) : null}
@@ -95,35 +94,7 @@ const css = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 16,
-    backgroundColor: "#fafafa",
+    backgroundColor: "#",
 
   }
 })
-
-/* loading ? (<Spinner />) :
-          (
-            <View style={css.container}>
-              <Search
-                value={localSearchText}
-                onValueChange={setLocalSearchText}
-                onFinishEnter={searchFromServer}
-              />
-              {error && (
-                <Text style={{ marginHorizontal: 20, marginTop: 20, color: "red" }}>
-                  {error}
-                </Text>
-              )}
-              <ScrollView style={{ marginTop: 20 }}>
-                {categories.length > 0 && categories.map(category => (
-                  <CategoryProductList
-                    searchLocalValue={localSearchText}
-                    searchServerValue={serverSearchText}
-                    key={category.id}
-                    style={{ marginVertical: 10 }}
-                    data={category}
-                  />
-                ))}
-              </ScrollView>
-            </View>
-          )
-          */
