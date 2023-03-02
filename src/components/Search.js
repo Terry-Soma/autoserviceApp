@@ -11,7 +11,7 @@ const Search = props => {
         <Feather name="search" style={css.searchIcon} color="black" />
       </TouchableOpacity>
       <TextInput
-        autoFocus={true}
+        // autoFocus={true}
         style={css.searchText}
         placeholderTextColor="#F5F5F5"
         autoCapitalize="none"
