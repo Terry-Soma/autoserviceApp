@@ -42,17 +42,19 @@ const HomeScreen = ({ navigation, route }) => {
     console.log(localSearchText);
   }
   return (
-    <SafeAreaView style={css.container}>
+    <SafeAreaView style={{ flex: 1 }}>
       {loading ? (<Spinner />) : (
         <>
           <Search
             value={localSearchText}
             onValueChange={setLocalSearchText}
-            onFinishEnter={searchFromServer} />
+            onFinishEnter={searchFromServer}
+            placeHolder="Та хайх барааны нэрээ оруулна уу"
+          />
 
           {/* neg scroll View mash ih erelttei */}
           <ScrollView style={{
-            marginTop: 16,
+            marginTop: 8,
           }}
             refreshControl={
               <RefreshControl
@@ -89,12 +91,3 @@ const HomeScreen = ({ navigation, route }) => {
 }
 
 export default HomeScreen
-
-const css = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop: 16,
-    backgroundColor: "#",
-
-  }
-})
