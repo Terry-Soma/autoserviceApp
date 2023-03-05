@@ -13,7 +13,6 @@ export default id => {
 
     axios.get(`${restUrl}/api/products/${id}`)
       .then(result => {
-        // console.log("Нэг бүтээгдэхүүнийг авчрав", result.data.data);
         setProduct(result.data.data)
       })
       .catch(err => {

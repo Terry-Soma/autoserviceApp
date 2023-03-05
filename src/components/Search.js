@@ -3,8 +3,6 @@ import React from 'react'
 import { Feather } from '@expo/vector-icons';
 
 const Search = props => {
-  console.log('props', props)
-
   return (
     <View style={css.searchPanel}>
       <TouchableOpacity style={css.searchIcon} onPress={props.onFinishEnter}>
@@ -20,8 +18,6 @@ const Search = props => {
         onEndEditing={props.onFinishEnter}
         value={props.value}
         {...props}
-
-
       />
       {props.value !== "" ? (<Feather name="x" style={[css.searchIcon, { paddingRight: 4 }]} color="black" onPress={() => props.onValueChange("")} />) : null}
     </View>
@@ -37,8 +33,6 @@ const css = StyleSheet.create({
     margin: 12,
     borderRadius: 7,
     flexDirection: "row",
-
-
   },
   searchText: {
     color: "#F5F5F5",

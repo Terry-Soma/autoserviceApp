@@ -8,15 +8,15 @@ import { Feather } from '@expo/vector-icons'
 import thousandify from 'thousandify';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import axios from 'axios';
 
 const ProductScreen = props => {
   const { product } = props.route?.params;
-
-  useLayoutEffect(() => {
-    props.navigation.setOptions({
-      title: "Сэлбэг худалдаа",
-    });
-  }, [props.navigation]);
+  // useLayoutEffect(() => {
+  //   props.navigation.setOptions({
+  //     title: "Сэлбэг худалдаа",
+  //   });
+  // }, [props.navigation]);
 
   const [quantity, setQuantity] = useState("1");
   // const [price, setPrice] = useState(product.une)
@@ -38,12 +38,23 @@ const ProductScreen = props => {
     })
   }
   // const [product, error, loading] = useOneProduct(id);
-  const purchaseProduct = () => {
+  const purchaseProduct = async () => {
     if (quantity > product.shirheg) {
       // aldaa garga
     }
     else {
-      console.log('product', quantity);
+
+      // done
+      axios.put(`${restUrl}/api/products/${product.id}`, {
+        shirheg: quantity
+      }).then((response) => {
+        console.log('res', response.data)
+
+      }).catch(({ response }) => {
+        console.log('err', response.data.error.message)
+      }
+      ).finally(() => {
+      });
 
     }
 
@@ -52,12 +63,10 @@ const ProductScreen = props => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView showsVerticalScrollIndicator={false} style={[{ marginLeft: 8 }]}>
-
         <View style={{
           flex: 1,
           justifyContent: "center",
           alignItems: "center",
-          marginTop: 10
         }}>
           {product.img ? (
             <Image style={css.proImage} source={{ uri: product.img }} />
@@ -115,28 +124,6 @@ const ProductScreen = props => {
         <MyButton title='Авах' onPress={purchaseProduct} />
         {/* bish bol */}
 
-        {/* <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-        <View style={{ flex: 2 }}>
-          <Text style={{ fontSize: 18, fontWeight: "bold", padding: 10 }}>{product.ner}</Text>
-          <Text style={{ fontSize: 14, fontWeight: 300, }}>Категорийн нэр - {product.categoryId}</Text>
-        </View>
-        <View style={{ flex: 1 }}>
-          <Text style={{ fontSize: 18, fontWeight: "bold", padding: 10 }}>Үнэ : {product.une}₮</Text>
-        </View>
-      </View> */}
-        {/* <Icon /> */}
-        {/* <Text style={{ fontSize: 18, fontWeight: "bold", padding: 10 }}>Байршил : {product.location}</Text>
-      <Text style={{ fontSize: 18, fontWeight: "bold", padding: 10 }}>Үлдэгдэл : {product.shirheg}</Text>
-      <Text style={{ fontSize: 14, fontWeight: "300" }}>Ирсэн огноо : {product.come_date}</Text> */}
-
-
-        {/* <View
-        style={{ flexDirection: "row", justifyContent: "space-evenly", alignItems: "center" }}
-      >
-        <MyInput keyboardType="number-pad" value={quantity} onChangeText={setQuantity} />
-        <MyButton title="Авах" style={{ flex: 2, }} onPress={sellProduct} />
-      </View> */}
-
 
 
 
@@ -144,7 +131,7 @@ const ProductScreen = props => {
     </SafeAreaView>
   )
 }
-
+ProductScreen.headerTitle = "asdfasf"
 export default ProductScreen;
 
 const css = StyleSheet.create({

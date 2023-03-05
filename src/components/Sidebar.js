@@ -74,9 +74,6 @@ export default function SideBar(props) {
 
         </Drawer.Section>
 
-
-
-
         <Drawer.Section >
           <Drawer.Item
             label="Тохиргоо"

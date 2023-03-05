@@ -83,7 +83,9 @@ const HomeScreen = ({ navigation, route }) => {
                 data={category}
               />)) : null}
           </ScrollView>
-        </>)}
+        </>
+      )
+      }
 
 
     </SafeAreaView>
