@@ -10,7 +10,8 @@ export default styles = StyleSheet.create({
     borderWidth: 1,
     flexDirection: 'row',
     alignItems: "center",
-    alignSelf: 'center'
+    alignSelf: 'center',
+    zIndex: 2
   },
   toastText: { marginLeft: 14, fontSize: 16 },
   successToastCon: {

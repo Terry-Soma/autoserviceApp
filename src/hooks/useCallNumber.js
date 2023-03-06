@@ -9,10 +9,20 @@ export default function useCallNumber() {
   const [error, setError] = useState(null)
 
   useEffect(() => {
+    setLoading(true)
     axios.get(`${restUrl}/api/calls`)
       .then(result => setState(result.data.data)
       )
-      .catch(err => console.log('error', err?.response)
+      .catch(err => {
+        console.log('error', err?.response)
+        let message = err.message;
+        if (message === "Request failed with status code 404")
+          message = "Уучлаарай сэрвэр дээр энэ өгөгдөл байхгүй байна...";
+        else if (message === "Network Error")
+          message =
+            "Сэрвэр ажиллахгүй байна. Та түр хүлээгээд дахин оролдоно уу.";
+        setError(message)
+      }
       )
       .finally(() => setLoading(false))
 

@@ -1,4 +1,4 @@
-import { StyleSheet, SafeAreaView, Text, ScrollView, View, Alert, RefreshControl } from 'react-native'
+import { Text, ScrollView, View, Alert, RefreshControl, SafeAreaView } from 'react-native'
 import React, { useCallback, useLayoutEffect, useState } from 'react'
 import Search from '../components/Search'
 import Spinner from '../components/Spinner';
@@ -41,53 +41,50 @@ const HomeScreen = ({ navigation, route }) => {
     console.log("first")
     console.log(localSearchText);
   }
+  if (loading) {
+    return <Spinner circleColor='gray' />;
+  }
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      {loading ? (<Spinner />) : (
-        <>
-          <Search
-            value={localSearchText}
-            onValueChange={setLocalSearchText}
-            onFinishEnter={searchFromServer}
-            placeHolder="Та хайх барааны нэрээ оруулна уу"
+
+      <Search
+        value={localSearchText}
+        onValueChange={setLocalSearchText}
+        onFinishEnter={searchFromServer}
+        placeHolder="Та хайх барааны нэрээ оруулна уу"
+      />
+
+      {/* neg scroll View mash ih erelttei */}
+      <ScrollView style={{
+        marginTop: 8,
+      }}
+        refreshControl={
+          <RefreshControl
+            // refreshing={refreshing}
+            onRefresh={onRefresh}
+            colors={["#DE4839", "#383CC1", "#6EC72D"]}
+            // size="large"
+            title="Hello"
           />
+        }
+      >
+        <View style={{ marginHorizontal: 12, marginVertical: 6, backgroundColor: "#7DCEA0", paddingHorizontal: 6, paddingVertical: 6, borderRadius: 12, maxWidth: "50%" }}>
+          <Text style={{ fontSize: 24, fontWeight: "500", color: "#2C3E50", width: "100%", textAlign: "center" }}>Их эрэлттэй </Text>
+        </View>
 
-          {/* neg scroll View mash ih erelttei */}
-          <ScrollView style={{
-            marginTop: 8,
-          }}
-            refreshControl={
-              <RefreshControl
-                // refreshing={refreshing}
-                onRefresh={onRefresh}
-                colors={["#DE4839", "#383CC1", "#6EC72D"]}
-                // size="large"
-                title="Hello"
-              />
-            }
-          >
-            <View style={{ marginHorizontal: 12, marginVertical: 6, backgroundColor: "#7DCEA0", paddingHorizontal: 6, paddingVertical: 6, borderRadius: 12, maxWidth: "50%" }}>
-              <Text style={{ fontSize: 24, fontWeight: "500", color: "#2C3E50", width: "100%", textAlign: "center" }}>Их эрэлттэй </Text>
-            </View>
+        <TopProduct searchLocalValue={localSearchText} />
 
-            <TopProduct searchLocalValue={localSearchText} />
-
-            {categories ? categories.map(category => (
-              <CategoryProductList
-                key={category.id}
-                searchLocalValue={localSearchText}
-                searchServerValue={serverSearchText}
-                setRefreshing={setRefreshing}
-                refresh={refreshing}
-                style={{ marginVertical: 10, }}
-                data={category}
-              />)) : null}
-          </ScrollView>
-        </>
-      )
-      }
-
-
+        {categories ? categories.map(category => (
+          <CategoryProductList
+            key={category.id}
+            searchLocalValue={localSearchText}
+            searchServerValue={serverSearchText}
+            setRefreshing={setRefreshing}
+            refresh={refreshing}
+            style={{ marginVertical: 10, }}
+            data={category}
+          />)) : null}
+      </ScrollView>
     </SafeAreaView>
   )
 }

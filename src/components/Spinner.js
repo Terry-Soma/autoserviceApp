@@ -1,15 +1,17 @@
 import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
 import React from 'react'
 
-const Spinner = ({ showText = true, circleColor = "#fff" }) => {
+const Spinner = ({ showText = true, circleColor = "#2C3E50" }) => {
   return (
-    <View style={{ alignItems: "center", marginVertical: 10, }}>
-      <ActivityIndicator size="large" color={circleColor} />
+    <View style={{ marginVertical: 10, flex: 1, alignSelf: "center", justifyContent: "center" }}>
+
       {showText && (
         <Text style={{ top: 10, fontWeight: "bold", fontSize: 18, }}>
           Түр хүлээнэ үү...
         </Text>
+
       )}
+      <ActivityIndicator size="large" color={circleColor} style={{ top: 10 }} />
     </View>
   )
 }

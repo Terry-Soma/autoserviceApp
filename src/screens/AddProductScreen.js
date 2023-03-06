@@ -54,7 +54,6 @@ export default function AddProduct(props) {
     }
   };
   const uploadImage = async () => {
-
     const fileName = image.substring(image.lastIndexOf('/') + 1);
     const fileExt = fileName.substring(fileName.lastIndexOf('.') + 1);
     const metadata = { contentType: `image/${fileExt}` };

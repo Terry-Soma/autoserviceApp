@@ -12,7 +12,7 @@ const Toast = forwardRef(({ }, ref) => {
 
 
   const toastTopAnimation = useSharedValue(-100);
-  const TOP_VALUE = Platform.OS === 'ios' ? 60 : 50;
+  const TOP_VALUE = Platform.OS === 'ios' ? 60 : 60;
 
   const show = useCallback(({ type, text, duration }) => {
     setShowing(true)

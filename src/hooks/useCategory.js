@@ -12,8 +12,6 @@ export default () => {
 
     axios.get(`${restUrl}/api/categories`)
       .then(result => {
-        console.log("Категорийг амжилттай хүлээж авлаа...");
-
         setCategories(result.data.data);
         setError(null);
       })
