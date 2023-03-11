@@ -2,14 +2,13 @@ import React, { useContext } from "react";
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import HomeScreen from "../screens/HomeScreen";
-import ProductScreen from "../screens/ProductScreen";
-import SideBar from "../components/Sidebar";
 import AddProductScreen from "../screens/AddProductScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import PhoneInfoScreen from "../screens/PhoneInfoScreen";
 
 import { appbarColor } from "../../Constants";
-
+import { IconButton } from "react-native-paper";
+import SideBar from "./../components/Nav/Sidebar";
 
 const Drawer = createDrawerNavigator();
 
@@ -27,17 +26,24 @@ export default () => {
         drawerType: 'back',
         headerStyle: { backgroundColor: appbarColor },
         headerTintColor: "white",
-        headerTitleStyle: { fontSize: 16, },
+        headerTitleStyle: { fontSize: 18, },
       }}
       drawerContent={props => <SideBar {...props} />}
     >
-      <Drawer.Screen name="Home" component={HomeScreen} />
-      <Drawer.Screen name="Бараа нэмэх" component={AddProductScreen} />
+      <Drawer.Screen name="Home" component={HomeScreen} options={{ title: "Бараанууд" }} />
+      <Drawer.Screen name="AddProduct" component={AddProductScreen} options={{ title: "Бараа нэмэх" }} />
 
-      <Drawer.Screen name="Барааны мэдээлэл" component={ProductScreen} />
-      <Drawer.Screen name="Утасны мэдээлэл" component={PhoneInfoScreen} />
+      <Drawer.Screen name="PhoneInfo" component={PhoneInfoScreen} options={({ navigation }) => ({
+        title: "Хэрэгтэй дугаарууд", headerRight: ({ tintColor }) => (
 
-      <Drawer.Screen name="Тохиргоо" component={SettingsScreen} />
+          <IconButton icon={"plus"} size={28} iconColor={tintColor} onPress={() => {
+            navigation.navigate("ManagePhoneInfo")
+          }} />
+        )
+      })}
+      />
+
+      <Drawer.Screen name="Settings" component={SettingsScreen} />
 
     </Drawer.Navigator >
   );

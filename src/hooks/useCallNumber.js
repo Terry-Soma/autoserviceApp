@@ -14,13 +14,16 @@ export default function useCallNumber() {
       .then(result => setState(result.data.data)
       )
       .catch(err => {
-        console.log('error', err?.response)
         let message = err.message;
         if (message === "Request failed with status code 404")
           message = "Уучлаарай сэрвэр дээр энэ өгөгдөл байхгүй байна...";
         else if (message === "Network Error")
           message =
             "Сэрвэр ажиллахгүй байна. Та түр хүлээгээд дахин оролдоно уу.";
+        else if (message == "Request failed with status code 500")
+          message =
+            "Сэрвэр ажиллахгүй байна. Та түр хүлээгээд дахин оролдоно уу.";
+
         setError(message)
       }
       )
@@ -28,5 +31,5 @@ export default function useCallNumber() {
 
   }, [])
 
-  return [state, loading, error]
+  return [state, setState, setLoading, loading, error]
 }

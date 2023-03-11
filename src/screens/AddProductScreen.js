@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView, SafeAreaView, Platform, Alert, Image, } from 'react-native';
+import { View, Text, ScrollView, SafeAreaView, Platform, Alert, Image, Pressable, Linking, StyleSheet, } from 'react-native';
 import axios from 'axios'
 import * as ImagePicker from 'expo-image-picker';
 import { Button as PaparButton, } from "react-native-paper";
@@ -34,11 +34,11 @@ export default function AddProduct(props) {
     }
     const image = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
-      aspect: [16, 9],
-      quality: 0.5
+      aspect: [4, 3],
+      quality: 0.8
     })
-    if (!image.cancelled) {
-      setImage(image.uri);
+    if (!image.canceled) {
+      setImage(image.assets[0].uri);
     }
 
   };
@@ -47,10 +47,10 @@ export default function AddProduct(props) {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 0.5,
+      quality: 0.8,
     });
-    if (!result.cancelled) {
-      setImage(result.uri);
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
     }
   };
   const uploadImage = async () => {
@@ -132,21 +132,35 @@ export default function AddProduct(props) {
           Alert.alert(
             "Анхаар!",
             "Уучлаарай, та утаснаас зураг сонгох эрхийг зөвшөөрч байж зураг оруулах боломжтой. Та утасныхаа тохиргооны цонхноос энэ апп-д зураг үзэх бичих эрхийг нээж өгнө үү.",
+            [{
+              text: 'Ok',
+              onPress: () => Linking.openSettings(),
+              style: 'default',
+            },
+
+            ]
           );
         }
       }
     })();
   }, []);
 
-
+  if (error) {
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Text>{error}</Text>
+    </View>
+  }
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.mainColor }}>
+    <SafeAreaView style={{
+      flex: 1,
+      backgroundColor: "#35495E"
+    }}>
       <View
         style={{
           flex: 1,
           paddingVertical: 10,
           paddingHorizontal: 20,
-          backgroundColor: theme.colors.mainColor
+          backgroundColor: "#35495E"
         }}
       >
         <Text style={{ fontSize: 24, color: theme.colors.secondaryColor, textAlign: "center" }}>
@@ -154,15 +168,15 @@ export default function AddProduct(props) {
         </Text>
 
       </View>
-      {loading || saving ? (
-        <Spinner />) : (
+      {saving ? (
+        <Spinner textStyle={{ color: "white" }} />) : (
         <Animatable.View
           animation="fadeInUpBig"
           duration={800}
           style={{
             flex: 8,
             paddingHorizontal: 16,
-            paddingVertical: 16,
+            paddingVertical: 24,
             backgroundColor: theme.colors.secondaryColor,
             borderTopLeftRadius: 30,
             borderTopRightRadius: 30,
@@ -242,13 +256,16 @@ export default function AddProduct(props) {
               onValueChange={(value) => setProductCatId(value)}
             />
             <View
-              style={{ flexDirection: "row", justifyContent: "space-evenly", paddingVertical: 20 }}
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-evenly',
+                alignItems: 'center', paddingVertical: 16
+              }}
             >
-              <MyButton
-                title="Буцах"
+              <MyButton style={css.button}
                 onPress={() => props.navigation.goBack()}
-              />
-              <MyButton title="Бүртгэх" onPress={sendProductToServer} />
+              >Буцах</MyButton>
+              <MyButton style={css.button} onPress={sendProductToServer}>Бүртгэх</MyButton>
             </View>
           </ScrollView>
         </Animatable.View>)}
@@ -256,3 +273,10 @@ export default function AddProduct(props) {
   )
 
 }
+
+const css = StyleSheet.create({
+  button: {
+    minWidth: 120,
+    marginHorizontal: 8,
+  }
+})

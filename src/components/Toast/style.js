@@ -4,7 +4,7 @@ export default styles = StyleSheet.create({
   container: {
     position: 'absolute',
     top: 0,
-    width: "84%",
+    width: "88%",
     padding: 10,
     borderRadius: 24,
     borderWidth: 1,

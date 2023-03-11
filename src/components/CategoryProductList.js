@@ -11,6 +11,9 @@ const CategoryProductList = props => {
   const filteredItems = products.filter(el =>
     el.ner.toLowerCase().includes(props.searchLocalValue.toLowerCase())
   );
+  if (filteredItems.length <= 0) {
+    return null;
+  }
 
   return (
     <View style={{ marginLeft: 8, }}>

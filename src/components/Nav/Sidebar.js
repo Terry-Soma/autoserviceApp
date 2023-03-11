@@ -8,14 +8,14 @@ import { EvilIcons } from '@expo/vector-icons';
 import { useTheme } from 'react-native-paper';
 export default function SideBar(props) {
   const theme = useTheme();
-  const [active, setActive] = React.useState('');
+  const [active, setActive] = React.useState('1');
 
   return (
     <View style={{ flex: 1, }}>
       <DrawerContentScrollView {...props}>
         <View style={{ flexDirection: "row", paddingLeft: 20, marginTop: 15 }}>
           <Avatar.Image
-            source={require("../../assets/splash.png")}
+            source={require("../../../assets/splash.png")}
             size={50}
           />
           <View style={{ marginLeft: 8 }}>
@@ -38,8 +38,8 @@ export default function SideBar(props) {
           <Drawer.Item
             label="Нүүр"
             active={active === '1'}
-            icon={({ size }) =>
-              <Feather name="home" size={size} color={theme.colors.scrim} />
+            icon={({ color, size }) =>
+              <Feather name="home" size={size} color={color} />
             }
             onPress={() => {
               setActive('1')
@@ -55,19 +55,19 @@ export default function SideBar(props) {
             }
             onPress={() => {
               setActive('2')
-              props.navigation.navigate("Бараа нэмэх")
+              props.navigation.navigate("AddProduct")
             }
             }
           />
           <Drawer.Item
             label="Утасны дугаар"
-            active={active === '3'}
+            // active={active === '3'}
             icon={({ size }) =>
               <Feather name="phone" size={size} color={theme.colors.scrim} />
             }
             onPress={() => {
               setActive('3')
-              props.navigation.navigate("Утасны мэдээлэл")
+              props.navigation.navigate("PhoneInfo")
             }
             }
           />
@@ -79,13 +79,13 @@ export default function SideBar(props) {
             label="Тохиргоо"
             onPress={() => {
               Alert.alert("Засвар", "Одоогоор энэ функц хөгжүүлэгдэж байна")
-              props.navigation.navigate("Тохиргоо")
+              props.navigation.navigate("Settings")
             }}
             icon={({ size }) => (
               <EvilIcons name="gear" size={size} />
             )}
           />
-          <Drawer.Item
+          {/* <Drawer.Item
             label="Бараа засах"
             active={active === '3'}
             icon={({ size }) =>
@@ -96,12 +96,12 @@ export default function SideBar(props) {
               props.navigation.navigate("Бараа засах")
             }
             }
-          />
+          /> */}
 
           <Button
             icon={({ size, }) => (
               <Image
-                source={require('./../../assets/favicon.png')}
+                source={require('./../../../assets/favicon.png')}
                 style={{
                   width: size,
                   height: size,

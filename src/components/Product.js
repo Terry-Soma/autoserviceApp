@@ -13,7 +13,7 @@ const Product = ({ data }) => {
 
   return (
     <TouchableOpacity style={css.proContainer}
-      onPress={() => navigation.navigate("Барааны мэдээлэл", { product: data })}
+      onPress={() => navigation.navigate("ProductDetail", { product: data })}
     >
 
       <Text style={css.proName}>{data.ner}</Text>

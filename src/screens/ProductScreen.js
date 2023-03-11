@@ -1,22 +1,18 @@
-import { Button, Image, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useLayoutEffect, useState } from 'react'
+import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import React, { useState } from 'react'
 import { ScrollView } from 'react-native-gesture-handler';
 import { restUrl } from '../../Constants';
-import MyButton from '../components/MyButton';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Feather } from '@expo/vector-icons'
 import thousandify from 'thousandify';
 import { Ionicons } from '@expo/vector-icons';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import axios from 'axios';
+import MyButton from '../components/MyButton';
+
 
 const ProductScreen = props => {
   const { product } = props.route?.params;
-  // useLayoutEffect(() => {
-  //   props.navigation.setOptions({
-  //     title: "Сэлбэг худалдаа",
-  //   });
-  // }, [props.navigation]);
 
   const [quantity, setQuantity] = useState("1");
   // const [price, setPrice] = useState(product.une)
@@ -61,7 +57,7 @@ const ProductScreen = props => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, marginBottom: 12 }}>
       <ScrollView showsVerticalScrollIndicator={false} style={[{ marginLeft: 8 }]}>
         <View style={{
           flex: 1,
@@ -121,7 +117,7 @@ const ProductScreen = props => {
               onPress={decQuantity}><Feather name="minus" size={32} color="#234599" /></TouchableOpacity>
           </View>
         </View >
-        <MyButton title='Авах' onPress={purchaseProduct} />
+        <MyButton style={css.button} onPress={purchaseProduct}>Авах</MyButton>
         {/* bish bol */}
 
 
@@ -157,5 +153,8 @@ const css = StyleSheet.create({
     elevation: 5,
     backgroundColor: "#fefefe",
     overflow: "hidden"
+  },
+  button: {
+    marginHorizontal: 22
   }
 });

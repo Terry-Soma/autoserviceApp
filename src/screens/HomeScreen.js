@@ -1,23 +1,20 @@
 import { Text, ScrollView, View, Alert, RefreshControl, SafeAreaView } from 'react-native'
-import React, { useCallback, useLayoutEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import Search from '../components/Search'
 import Spinner from '../components/Spinner';
 
 import useCategory from '../hooks/useCategory';
 import CategoryProductList from '../components/CategoryProductList';
 import TopProduct from '../components/TopProduct';
+import axios from 'axios';
+import { restUrl } from '../../Constants';
+import ErrorText from '../components/ErrorText';
 
 const HomeScreen = ({ navigation, route }) => {
   const [localSearchText, setLocalSearchText] = useState("");
   const [serverSearchText, setServerSearchText] = useState("");
   const [refreshing, setRefreshing] = useState(false)
-  const [categories, error, loading] = useCategory();
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      title: "Сэлбэг худалдаа",
-    });
-  }, [navigation]);
+  const [categories, setCategories, setError, error, loading] = useCategory();
 
 
   if (route.params && route.params.createdProduct) {
@@ -28,8 +25,24 @@ const HomeScreen = ({ navigation, route }) => {
   const onRefresh = useCallback(() => {
     setRefreshing(true);
 
-    wait(2000).then(() => setRefreshing(false));
-  }, []);
+    //improve 
+    axios.get(`${restUrl}/api/categories`)
+      .then(result => {
+        setCategories(result.data.data);
+        setError(null);
+        console.log('res', result.data)
+      })
+      .catch(err => {
+        console.log("err", err.response);
+        let message = err.message;
+        if (message === "Request failed with status code 404")
+          message = "Уучлаарай сэрвэр дээр энэ өгөгдөл байхгүй байна...";
+        else if (message === "Network Error")
+          message =
+            "Сэрвэр ажиллахгүй байна. Та түр хүлээгээд дахин оролдоно уу.";
+        setError(message);
+      }).finally(() => setRefreshing(false));
+  }, [refreshing]);
   const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   }
@@ -44,6 +57,9 @@ const HomeScreen = ({ navigation, route }) => {
   if (loading) {
     return <Spinner circleColor='gray' />;
   }
+  if (error) {
+    <ErrorText errorMsg={error} />
+  }
   return (
     <SafeAreaView style={{ flex: 1 }}>
 
@@ -51,7 +67,7 @@ const HomeScreen = ({ navigation, route }) => {
         value={localSearchText}
         onValueChange={setLocalSearchText}
         onFinishEnter={searchFromServer}
-        placeHolder="Та хайх барааны нэрээ оруулна уу"
+        placeholder="Барааны нэрээ оруулна уу"
       />
 
       {/* neg scroll View mash ih erelttei */}
@@ -60,17 +76,13 @@ const HomeScreen = ({ navigation, route }) => {
       }}
         refreshControl={
           <RefreshControl
-            // refreshing={refreshing}
+            refreshing={refreshing}
             onRefresh={onRefresh}
             colors={["#DE4839", "#383CC1", "#6EC72D"]}
-            // size="large"
-            title="Hello"
           />
         }
       >
-        <View style={{ marginHorizontal: 12, marginVertical: 6, backgroundColor: "#7DCEA0", paddingHorizontal: 6, paddingVertical: 6, borderRadius: 12, maxWidth: "50%" }}>
-          <Text style={{ fontSize: 24, fontWeight: "500", color: "#2C3E50", width: "100%", textAlign: "center" }}>Их эрэлттэй </Text>
-        </View>
+
 
         <TopProduct searchLocalValue={localSearchText} />
 

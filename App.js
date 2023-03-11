@@ -1,10 +1,8 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import { MD3LightTheme as DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
-import DrawerNav from './src/DrawerNav/DrawerNavigator';
 import { StatusBar } from 'expo-status-bar';
-
+import Navigation from './src/navigation'
 const theme = {
   ...DefaultTheme,
   colors: {
@@ -28,10 +26,8 @@ const theme = {
 const App = () => {
   return (
     <PaperProvider theme={theme}>
-      <NavigationContainer>
-        <StatusBar />
-        <DrawerNav />
-      </NavigationContainer>
+      <StatusBar style='light' />
+      <Navigation />
     </PaperProvider>
   );
 }

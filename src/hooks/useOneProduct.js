@@ -22,7 +22,9 @@ export default id => {
         else if (message === "Network Error")
           message =
             "Сэрвэр ажиллахгүй байна. Та түр хүлээгээд дахин оролдоно уу..";
-
+        else if (message == "Request failed with status code 500")
+          message =
+            "Сэрвэр ажиллахгүй байна. Та түр хүлээгээд дахин оролдоно уу.";
         setError(message);
 
       })

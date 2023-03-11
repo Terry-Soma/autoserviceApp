@@ -9,9 +9,8 @@ const Search = props => {
         <Feather name="search" style={css.searchIcon} color="black" />
       </TouchableOpacity>
       <TextInput
-        // autoFocus={true}
         style={css.searchText}
-        placeholderTextColor="#F5F5F5"
+        placeholderTextColor="#f5f5f5"
         autoCapitalize="none"
         autoCorrect={false}
         onChangeText={props.onValueChange}
@@ -19,7 +18,7 @@ const Search = props => {
         value={props.value}
         {...props}
       />
-      {props.value !== "" ? (<Feather name="x" style={[css.searchIcon, { paddingRight: 4 }]} color="black" onPress={() => props.onValueChange("")} />) : null}
+      {props.value !== "" ? (<Feather name="x" style={[css.searchIcon, { paddingRight: 4 }]} onPress={() => props.onValueChange("")} />) : null}
     </View>
   )
 }
@@ -33,12 +32,14 @@ const css = StyleSheet.create({
     margin: 12,
     borderRadius: 7,
     flexDirection: "row",
+    overflow: 'hidden'
   },
   searchText: {
     color: "#F5F5F5",
-    fontSize: 20,
+    fontSize: 18,
     flex: 1,
     marginLeft: 2,
+    paddingVertical: 2
   },
   searchIcon: {
     fontSize: 24,
