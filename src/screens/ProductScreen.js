@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Alert, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { ScrollView } from 'react-native-gesture-handler';
 import { restUrl } from '../../Constants';
@@ -9,6 +9,7 @@ import thousandify from 'thousandify';
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import MyButton from '../components/MyButton';
+import Spinner from '../components/Spinner';
 
 
 const ProductScreen = props => {
@@ -16,6 +17,8 @@ const ProductScreen = props => {
 
   const [quantity, setQuantity] = useState("1");
   // const [price, setPrice] = useState(product.une)
+  const [loading, setLoading] = useState(false)
+  const [productInfo, setProductInfo] = useState(product)
   const price = product.une * quantity;
   const incQuantity = () => {
     setQuantity(prevVal => {
@@ -35,37 +38,59 @@ const ProductScreen = props => {
   }
   // const [product, error, loading] = useOneProduct(id);
   const purchaseProduct = async () => {
-    if (quantity > product.shirheg) {
+    if (quantity > productInfo.shirheg) {
       // aldaa garga
+      Alert.alert("Алдаа", "Та нөөцөөс ")
     }
     else {
+      // Alert.alert();
+      Alert.alert(
+        'Мэдээлэл баталгаажуулалт',
+        `${productInfo.ner} \n Нийт үнэ ${productInfo.une}₮ X ${quantity} = ${thousandify(productInfo.une * quantity)}₮`,
+        [
+          {
+            text: 'Буцах',
+            // onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {
+            text: 'Зарах',
+            onPress: sellProduct,
+            style: "destructive"
+          },
+        ],
 
+      );
       // done
-      axios.put(`${restUrl}/api/products/${product.id}`, {
-        shirheg: quantity
-      }).then((response) => {
-        console.log('res', response.data)
-
-      }).catch(({ response }) => {
-        console.log('err', response.data.error.message)
-      }
-      ).finally(() => {
-      });
 
     }
 
   };
+  const sellProduct = () => {
+    setLoading(true)
+    axios.put(`${restUrl}/api/products/${productInfo.id}`, {
+      shirheg: quantity
+    }).then(({ data }) => {
+      console.log('res', data.data)
+      setProductInfo(data.data)
 
+    }).catch(({ response }) => {
+      console.log('err', response.data.error.message)
+      // show errro
+      Alert.alert(response.data.error.message)
+    }
+    ).finally(() => setLoading(false));
+  }
   return (
-    <SafeAreaView style={{ flex: 1, marginBottom: 12 }}>
-      <ScrollView showsVerticalScrollIndicator={false} style={[{ marginLeft: 8 }]}>
+    <SafeAreaView style={{ flex: 1, paddingBottom: 12, borderBottomColor: "red", borderBottomWidth: 2 }}>
+      <ScrollView showsVerticalScrollIndicator={false} style={[{ marginLeft: 8, }]}>
         <View style={{
           flex: 1,
           justifyContent: "center",
           alignItems: "center",
         }}>
-          {product.img ? (
-            <Image style={css.proImage} source={{ uri: product.img }} />
+          {productInfo.img ? (
+            <Image style={css.proImage} source={{ uri: productInfo.img }} />
           ) : (
             <Image style={css.proImage} source={require("../../assets/parado1.jpg")} />)}
         </View>
@@ -75,8 +100,8 @@ const ProductScreen = props => {
       <MyInput title="Тоо ширхэг" keyboardType="numeric" data={product.shirheg + ""} />
       <MyInput title="үнэ" keyboardType="numeric" data={product.une + ""} /> */}
 
-        <Text style={{ fontSize: 24, textTransform: 'capitalize', marginLeft: 14, marginTop: 16 }}>{product.ner}</Text>
-        <Text style={{ color: "#555", fontSize: 16, marginLeft: 16 }}>{product.location}</Text>
+        <Text style={{ fontSize: 24, textTransform: 'capitalize', marginLeft: 14, marginTop: 16 }}>{productInfo.ner}</Text>
+        <Text style={{ color: "#555", fontSize: 16, marginLeft: 16 }}>{productInfo.location}</Text>
 
         {/* product main info */}
         <View style={[{ flexDirection: "row", justifyContent: "space-evenly", marginHorizontal: 12 }]}>
@@ -85,7 +110,7 @@ const ProductScreen = props => {
 
             <View style={[{ marginLeft: 4 }]}>
               <Text style={{ color: "#212121", fontSize: 24 }}>Ширхэг</Text>
-              <Text style={{ color: "#1e1e1e", fontSize: 16 }}>{product.shirheg} </Text>
+              <Text style={{ color: "#1e1e1e", fontSize: 16 }}>{productInfo.shirheg} </Text>
             </View>
           </View>
           <View style={{ width: 10 }}></View>
@@ -93,7 +118,7 @@ const ProductScreen = props => {
             <Feather name="dollar-sign" size={48} color="#234599" />
             <View style={{ marginLeft: 4 }}>
               <Text style={{ color: "#212121", fontSize: 24, marginRight: 8 }}>Үнэ /Ш</Text>
-              <Text style={{ color: "#1e1e1e", fontSize: 16 }}>{thousandify(product.une)}₮ </Text>
+              <Text style={{ color: "#1e1e1e", fontSize: 16 }}>{thousandify(productInfo.une)}₮ </Text>
             </View>
           </View>
         </View>
@@ -117,7 +142,10 @@ const ProductScreen = props => {
               onPress={decQuantity}><Feather name="minus" size={32} color="#234599" /></TouchableOpacity>
           </View>
         </View >
-        <MyButton style={css.button} onPress={purchaseProduct}>Авах</MyButton>
+        {/* overlay modal or spinner */}
+
+        {loading ? <Spinner showText={false} /> : (<MyButton style={css.button} onPress={purchaseProduct}>Авах</MyButton>)}
+
         {/* bish bol */}
 
 

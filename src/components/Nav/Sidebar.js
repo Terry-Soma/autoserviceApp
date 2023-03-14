@@ -71,6 +71,18 @@ export default function SideBar(props) {
             }
             }
           />
+          <Drawer.Item
+            label="Зарсан бараанууд"
+            // active={active === '3'}
+            icon={({ size }) =>
+              <Feather name="dollar-sign" size={size} color={theme.colors.scrim} />
+            }
+            onPress={() => {
+              setActive('3')
+              props.navigation.navigate("Income")
+            }
+            }
+          />
 
         </Drawer.Section>
 

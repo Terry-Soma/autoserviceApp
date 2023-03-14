@@ -13,7 +13,7 @@ export default () => (
   <Stack.Navigator screenOptions={{
     headerStyle: { backgroundColor: appbarColor },
     headerTintColor: '#FFF',
-    headerTitleStyle: { fontWeight: "600", fontSize: 18 }
+    headerTitleStyle: { fontSize: 18, fontFamily: "Manrope" },
   }}>
     <Stack.Screen
       name="Drawer"

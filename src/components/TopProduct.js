@@ -93,7 +93,8 @@ const css = StyleSheet.create({
     marginLeft: 12,
     marginBottom: 6,
     fontSize: 14,
-    fontWeight: '600'
+    fontWeight: '600',
+    fontFamily: "Montserrat"
   },
   flex: {
     flexDirection: 'row',

@@ -5,7 +5,7 @@ import HomeScreen from "../screens/HomeScreen";
 import AddProductScreen from "../screens/AddProductScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import PhoneInfoScreen from "../screens/PhoneInfoScreen";
-
+import IncomeScreen from './../screens/IncomeScreen'
 import { appbarColor } from "../../Constants";
 import { IconButton } from "react-native-paper";
 import SideBar from "./../components/Nav/Sidebar";
@@ -26,7 +26,7 @@ export default () => {
         drawerType: 'back',
         headerStyle: { backgroundColor: appbarColor },
         headerTintColor: "white",
-        headerTitleStyle: { fontSize: 18, },
+        headerTitleStyle: { fontSize: 18, fontFamily: "Manrope" },
       }}
       drawerContent={props => <SideBar {...props} />}
     >
@@ -44,6 +44,8 @@ export default () => {
       />
 
       <Drawer.Screen name="Settings" component={SettingsScreen} />
+      <Drawer.Screen name="Income" component={IncomeScreen} options={{ title: "Зарсан бараанууд", }} />
+
 
     </Drawer.Navigator >
   );

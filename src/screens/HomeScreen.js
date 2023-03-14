@@ -23,6 +23,7 @@ const HomeScreen = ({ navigation, route }) => {
     delete route.params.createdProduct;
   }
   const onRefresh = useCallback(() => {
+    setCategories([])
     setRefreshing(true);
 
     //improve 
@@ -43,9 +44,9 @@ const HomeScreen = ({ navigation, route }) => {
         setError(message);
       }).finally(() => setRefreshing(false));
   }, [refreshing]);
-  const wait = (timeout) => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
-  }
+  // const wait = (timeout) => {
+  //   return new Promise(resolve => setTimeout(resolve, timeout));
+  // }
   const searchFromServer = () => {
     if (localSearchText == null) {
       return;

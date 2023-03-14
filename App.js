@@ -1,8 +1,12 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { MD3LightTheme as DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
 import Navigation from './src/navigation'
+import * as SplashScreen from 'expo-splash-screen';
+import { useFonts } from 'expo-font';
+import { View } from 'react-native';
+SplashScreen.preventAutoHideAsync();
 const theme = {
   ...DefaultTheme,
   colors: {
@@ -23,11 +27,32 @@ const theme = {
     ],
   },
 };
+
+
 const App = () => {
+  const [fontsLoaded] = useFonts({
+    'Garamond': require('./assets/fonts/EBGaramond-VariableFont_wght.ttf'),
+    'Manrope': require('./assets/fonts/Manrope-VariableFont_wght.ttf'),
+    'Montserrat': require('./assets/fonts/Montserrat-Black.ttf'),
+    'Montserrat-V': require('./assets/fonts/Montserrat-VariableFont_wght.ttf'),
+
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
   return (
-    <PaperProvider theme={theme}>
+    <PaperProvider theme={theme} >
       <StatusBar style='light' />
-      <Navigation />
+      <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+        <Navigation onLayoutRootView={onLayoutRootView} />
+      </View>
     </PaperProvider>
   );
 }

@@ -14,6 +14,7 @@ export default id => {
     axios.get(`${restUrl}/api/products/${id}`)
       .then(result => {
         setProduct(result.data.data)
+        console.log('products', result.data)
       })
       .catch(err => {
         let message = err.message;

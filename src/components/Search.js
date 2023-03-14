@@ -4,7 +4,7 @@ import { Feather } from '@expo/vector-icons';
 
 const Search = props => {
   return (
-    <View style={css.searchPanel}>
+    <View style={[props?.style, css.searchPanel]}>
       <TouchableOpacity style={css.searchIcon} onPress={props.onFinishEnter}>
         <Feather name="search" style={css.searchIcon} color="black" />
       </TouchableOpacity>
@@ -36,10 +36,11 @@ const css = StyleSheet.create({
   },
   searchText: {
     color: "#F5F5F5",
-    fontSize: 18,
+    fontSize: 20,
     flex: 1,
     marginLeft: 2,
-    paddingVertical: 2
+    paddingVertical: 2,
+    fontFamily: "Garamond"
   },
   searchIcon: {
     fontSize: 24,

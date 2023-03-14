@@ -14,6 +14,7 @@ export default (catId, refreshing, setRefreshing) => {
         setLoading(true);
         axios.get(`${restUrl}/api/categories/${catId}/products`).then(result => {
             setProducts(result.data.data);
+            console.log('products All', result.data)
             setError(null);
         })
             .catch(err => {
@@ -28,7 +29,7 @@ export default (catId, refreshing, setRefreshing) => {
                         "Сэрвэр ажиллахгүй байна. Та түр хүлээгээд дахин оролдоно уу.";
                 setError(message);
             }).finally(() => setLoading(false));
-    }, []);
+    }, [catId]);
 
     return [products, error, searchProduct, loading];
 }
