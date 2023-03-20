@@ -1,12 +1,11 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import { View, Text, FlatList, StyleSheet, SafeAreaView } from 'react-native'
-import { restUrl } from "../../Constants";
+import { fontVar, restUrl } from "../../Constants";
 import Search from "../components/Search";
 import thousandify from 'thousandify'
 import { formattedDate } from "../utils/date";
-import { Divider } from "react-native-paper";
 import { Feather } from '@expo/vector-icons';
 const IncomeScreen = () => {
   const [seachVal, setSearchVal] = useState('')
@@ -16,9 +15,13 @@ const IncomeScreen = () => {
   const [incomes, setIncomes] = useState([])
   //fetch zarsan baraanuud
   useEffect(() => {
-    axios.get(restUrl + "/api/income").then(result => setIncomes(result.data.data)).catch(err => {
-      console.log('erro', err)
-    })
+    axios.get(restUrl + "/api/income")
+      .then(result => {
+        setIncomes(result.data.data)
+      })
+      .catch(err => {
+        console.log('erro', err)
+      })
   }, []);
 
   const filteredIncome = incomes.filter((income) => income.product.ner.toLowerCase().includes(seachVal.toLowerCase()))
@@ -34,109 +37,96 @@ const IncomeScreen = () => {
       />
 
       <View style={css.incomeListContainer}>
+        {/* improve */}
         <FlatList
           data={filteredIncome}
           keyExtractor={(item) => item.id}
-          ItemSeparatorComponent={<Divider />}
           showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => {
-            let date = new Date(item.sell_date);
+          renderItem={({ item }) => (
+            <View style={css.incomeItem}>
+              <View style={[{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }]}>
+                <View style={{
+                  flex: 2.4,
+                  paddingHorizontal: 4,
+                }}>
+                  <Text style={{ fontSize: 16, fontFamily: fontVar.Man }}>
+                    {item.product.ner}
+                  </Text>
+                  <View style={{ flexDirection: 'column', }}>
 
-            return (
-              <View style={css.incomeItem}>
-                <View style={[{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  // borderColor: "red",
-                  // borderWidth: 2,
-                }]}>
-                  <View style={{
-                    flex: 2.4,
-                    paddingHorizontal: 4,
-                    // borderColor: "green",
-                    // borderWidth: 2,
-                  }}>
-                    <Text style={{ fontSize: 16, fontFamily: 'Montserrat' }}>
-                      {item.product.ner}
-                    </Text>
-                    <View style={{ flexDirection: 'column', }}>
+                    <View style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}>
 
-                      <View style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        // borderColor: "red",
-                        // borderWidth: 1
-                      }}>
-
-                        <View style={{ flexDirection: "row", paddingRight: 2, alignItems: "center", flex: 0.8 }} >
-                          <Feather name="package" size={16} color="black" style={{ marginRight: 8 }} />
-                          <Text style={{ fontSize: 16, letterSpacing: 0.4, color: "grey", fontWeight: "700", fontFamily: "Garamond" }}>
-                            {item.shirheg}ш
-                          </Text>
-                        </View>
-                        <View style={{
-                          flexDirection: "row", marginTop: 4,
-                          alignItems: "center",
-                          marginVertical: 4,
-                          flex: 1
-
-                        }}>
-
-                          <Text style={{ fontSize: 16, color: "grey", fontWeight: "700" }}>
-                            Үнэ-{thousandify(`${item.product.une}0000`)}₮
-                          </Text>
-                        </View>
+                      <View style={{ flexDirection: "row", paddingRight: 2, alignItems: "center", }} >
+                        <Feather name="package" size={16} color="black" style={{ marginRight: 8 }} />
+                        <Text
+                          style={{ fontSize: 16, lineHeight: 20, }}
+                        >
+                          {item.shirheg}ш
+                        </Text>
                       </View>
                       <View style={{
-                        flexDirection: "row",
+                        flexDirection: "row", marginTop: 4,
+                        alignItems: "center",
+                        marginVertical: 4,
+                        flex: 1
+
                       }}>
-                        <View style={{
-                          flexDirection: "row", paddingRight: 2, alignItems: "center",
-                        }}>
-                          <Feather name="calendar" size={14} color="black" style={{ marginRight: 2 }} />
-                          <Text style={{ fontSize: 12, color: "grey", }}>
-                            {formattedDate(date)}
-                          </Text>
-
-                        </View>
-                        <View style={{
-                          flexDirection: "row", marginTop: 4,
-                          alignItems: "center",
-                          marginVertical: 4,
-                          flex: 1
-                        }}>
-                          <Feather name="user" size={14} color="black" style={{ marginLeft: 6, marginRight: 2 }} />
-                          <Text style={{ fontSize: 16, color: "grey", fontWeight: "bold" }}>
-                            Tuuduu ah
-                          </Text>
-                        </View>
+                        <Text style={{ fontSize: 16, color: "grey", fontWeight: "700" }}>
+                          Үнэ-{thousandify(`${item.product.une}0000`)}₮
+                        </Text>
                       </View>
+                    </View>
+                    <View style={{
+                      flexDirection: "row",
+                    }}>
+                      <View style={{
+                        flexDirection: "row", paddingRight: 2, alignItems: "center",
+                      }}>
+                        <Feather name="calendar" size={14} color="black" style={{ marginRight: 2 }} />
+                        <Text style={{ fontSize: 12, color: "grey", }}>
+                          {formattedDate(item.sell_date)}
+                        </Text>
 
-
+                      </View>
+                      <View style={{
+                        flexDirection: "row", marginTop: 4,
+                        alignItems: "center",
+                        marginVertical: 4,
+                        flex: 1
+                      }}>
+                        <Feather name="user" size={14} color="black" style={{ marginLeft: 6, marginRight: 2 }} />
+                        <Text style={{ fontSize: 16, color: "grey", fontWeight: "bold" }}>
+                          Tuuduu ah
+                        </Text>
+                      </View>
                     </View>
 
                   </View>
-                  <View style={{
-                    backgroundColor: "#0F00F9", borderRadius: 16,
-                    paddingVertical: 12,
-                    paddingHorizontal: 4,
-                    alignItems: "center",
-                    flex: 0.8,
-                  }}>
-                    <Text style={{ fontWeight: "700", color: "#f3f3f3" }}>
-                      {thousandify(`${item.product.une * item.shirheg}0000`)}₮
-                    </Text>
-                    <Text style={{ color: "#fff", fontSize: 14 }}>Нийт дүн</Text>
-                  </View>
 
                 </View>
-
-
+                <View style={{
+                  backgroundColor: "#0F00F9", borderRadius: 16,
+                  paddingVertical: 12,
+                  paddingHorizontal: 8,
+                  alignItems: "center",
+                }}>
+                  <Text style={{ fontWeight: "700", color: "#f3f3f3" }}>
+                    {thousandify(`${item.product.une * item.shirheg}0000`)}₮
+                  </Text>
+                  <Text style={{ color: "#fff", fontSize: 14 }}>Нийт дүн</Text>
+                </View>
 
               </View>
-            )
-          }}
+            </View>
+          )
+          }
         />
       </View>
     </SafeAreaView >

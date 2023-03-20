@@ -9,44 +9,54 @@ import TopProduct from '../components/TopProduct';
 import axios from 'axios';
 import { restUrl } from '../../Constants';
 import ErrorText from '../components/ErrorText';
-
+import { useFocusEffect } from '@react-navigation/native';
 const HomeScreen = ({ navigation, route }) => {
   const [localSearchText, setLocalSearchText] = useState("");
   const [serverSearchText, setServerSearchText] = useState("");
   const [refreshing, setRefreshing] = useState(false)
   const [categories, setCategories, setError, error, loading] = useCategory();
 
-
   if (route.params && route.params.createdProduct) {
     Alert.alert(route.params.createdProduct.ner + " нэртэй бараа нэмэгдлээ!");
     setRefreshing(true);/* refresh controller */
     delete route.params.createdProduct;
   }
-  const onRefresh = useCallback(() => {
-    setCategories([])
+  if (route.params && route.params.refresh) {
     setRefreshing(true);
+    delete route.params.refresh;
+  }
 
-    //improve 
-    axios.get(`${restUrl}/api/categories`)
-      .then(result => {
-        setCategories(result.data.data);
-        setError(null);
-        console.log('res', result.data)
-      })
-      .catch(err => {
-        console.log("err", err.response);
-        let message = err.message;
-        if (message === "Request failed with status code 404")
-          message = "Уучлаарай сэрвэр дээр энэ өгөгдөл байхгүй байна...";
-        else if (message === "Network Error")
-          message =
-            "Сэрвэр ажиллахгүй байна. Та түр хүлээгээд дахин оролдоно уу.";
-        setError(message);
-      }).finally(() => setRefreshing(false));
-  }, [refreshing]);
-  // const wait = (timeout) => {
-  //   return new Promise(resolve => setTimeout(resolve, timeout));
-  // }
+
+  // const onRefresh = ;
+
+  // call each focus 
+  useFocusEffect(
+    useCallback(() => {
+      if (!refreshing) {
+        return;
+      }
+      console.log(route.params)
+      setCategories([])
+      //improve 
+      axios.get(`${restUrl}/api/categories`)
+        .then(result => {
+          setCategories(result.data.data);
+          setError(null);
+          console.log('res', result.data)
+        })
+        .catch(err => {
+          console.log("err", err.response);
+          let message = err.message;
+          if (message === "Request failed with status code 404")
+            message = "Уучлаарай сэрвэр дээр энэ өгөгдөл байхгүй байна...";
+          else if (message === "Network Error")
+            message =
+              "Сэрвэр ажиллахгүй байна. Та түр хүлээгээд дахин оролдоно уу.";
+          setError(message);
+        }).finally(() => setRefreshing(false));
+
+    }, [refreshing]))
+
   const searchFromServer = () => {
     if (localSearchText == null) {
       return;
@@ -78,12 +88,11 @@ const HomeScreen = ({ navigation, route }) => {
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
-            onRefresh={onRefresh}
+            onRefresh={() => setRefreshing(true)}
             colors={["#DE4839", "#383CC1", "#6EC72D"]}
           />
         }
       >
-
 
         <TopProduct searchLocalValue={localSearchText} />
 

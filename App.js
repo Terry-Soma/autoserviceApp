@@ -6,6 +6,7 @@ import Navigation from './src/navigation'
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 import { View } from 'react-native';
+import { fontOptions } from './Constants';
 SplashScreen.preventAutoHideAsync();
 const theme = {
   ...DefaultTheme,
@@ -28,15 +29,8 @@ const theme = {
   },
 };
 
-
 const App = () => {
-  const [fontsLoaded] = useFonts({
-    'Garamond': require('./assets/fonts/EBGaramond-VariableFont_wght.ttf'),
-    'Manrope': require('./assets/fonts/Manrope-VariableFont_wght.ttf'),
-    'Montserrat': require('./assets/fonts/Montserrat-Black.ttf'),
-    'Montserrat-V': require('./assets/fonts/Montserrat-VariableFont_wght.ttf'),
-
-  });
+  const [fontsLoaded] = useFonts(fontOptions);
 
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {

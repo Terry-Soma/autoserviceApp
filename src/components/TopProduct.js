@@ -4,6 +4,7 @@ import { FlatList, TouchableOpacity } from 'react-native-gesture-handler'
 import { useNavigation } from '@react-navigation/native'
 import useTopProduct from '../hooks/useTopProduct';
 import Spinner from './Spinner';
+import { fontVar } from '../../Constants';
 
 const TopProduct = props => {
   const navigation = useNavigation();
@@ -94,7 +95,7 @@ const css = StyleSheet.create({
     marginBottom: 6,
     fontSize: 14,
     fontWeight: '600',
-    fontFamily: "Montserrat"
+    fontFamily: fontVar.Mont.b
   },
   flex: {
     flexDirection: 'row',

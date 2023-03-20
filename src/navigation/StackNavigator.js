@@ -4,7 +4,7 @@ import {
 } from "@react-navigation/stack";
 import ProductScreen from "../screens/ProductScreen";
 import DrawerNavigator from './DrawerNavigator'
-import { appbarColor } from "../../Constants";
+import { appbarColor, headerTitleStyle } from "../../Constants";
 import ManagePhoneInfoScreen from "../screens/ManagePhoneInfo";
 
 const Stack = createStackNavigator();
@@ -13,7 +13,7 @@ export default () => (
   <Stack.Navigator screenOptions={{
     headerStyle: { backgroundColor: appbarColor },
     headerTintColor: '#FFF',
-    headerTitleStyle: { fontSize: 18, fontFamily: "Manrope" },
+    headerTitleStyle: headerTitleStyle,
   }}>
     <Stack.Screen
       name="Drawer"

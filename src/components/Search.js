@@ -1,6 +1,7 @@
 import { StyleSheet, TextInput, View, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { Feather } from '@expo/vector-icons';
+import { fontVar } from '../../Constants';
 
 const Search = props => {
   return (
@@ -36,11 +37,11 @@ const css = StyleSheet.create({
   },
   searchText: {
     color: "#F5F5F5",
-    fontSize: 20,
+    fontSize: 18,
     flex: 1,
     marginLeft: 2,
     paddingVertical: 2,
-    fontFamily: "Garamond"
+    fontFamily: fontVar.Mont.m
   },
   searchIcon: {
     fontSize: 24,

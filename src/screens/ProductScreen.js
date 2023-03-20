@@ -10,10 +10,12 @@ import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import MyButton from '../components/MyButton';
 import Spinner from '../components/Spinner';
+import { useNavigation } from '@react-navigation/native';
 
 
 const ProductScreen = props => {
   const { product } = props.route?.params;
+  const navigate = useNavigation();
 
   const [quantity, setQuantity] = useState("1");
   // const [price, setPrice] = useState(product.une)
@@ -40,17 +42,15 @@ const ProductScreen = props => {
   const purchaseProduct = async () => {
     if (quantity > productInfo.shirheg) {
       // aldaa garga
-      Alert.alert("Алдаа", "Та нөөцөөс ")
+      Alert.alert("Алдаа", "Та байгаа нөөцөөс их бараа зарах гэж байна");
     }
     else {
-      // Alert.alert();
       Alert.alert(
         'Мэдээлэл баталгаажуулалт',
         `${productInfo.ner} \n Нийт үнэ ${productInfo.une}₮ X ${quantity} = ${thousandify(productInfo.une * quantity)}₮`,
         [
           {
             text: 'Буцах',
-            // onPress: () => console.log('Cancel Pressed'),
             style: 'cancel',
           },
           {
@@ -59,30 +59,31 @@ const ProductScreen = props => {
             style: "destructive"
           },
         ],
-
       );
       // done
-
     }
-
   };
+
   const sellProduct = () => {
     setLoading(true)
     axios.put(`${restUrl}/api/products/${productInfo.id}`, {
       shirheg: quantity
     }).then(({ data }) => {
-      console.log('res', data.data)
+      // clean up and reset state
       setProductInfo(data.data)
+      setQuantity("1")
+      // navigate();
+      navigate.navigate("Home", { refresh: true });
 
     }).catch(({ response }) => {
       console.log('err', response.data.error.message)
-      // show errro
+      // show error
       Alert.alert(response.data.error.message)
     }
     ).finally(() => setLoading(false));
   }
   return (
-    <SafeAreaView style={{ flex: 1, paddingBottom: 12, borderBottomColor: "red", borderBottomWidth: 2 }}>
+    <SafeAreaView style={{ flex: 1, paddingBottom: 12, }}>
       <ScrollView showsVerticalScrollIndicator={false} style={[{ marginLeft: 8, }]}>
         <View style={{
           flex: 1,
@@ -155,7 +156,6 @@ const ProductScreen = props => {
     </SafeAreaView>
   )
 }
-ProductScreen.headerTitle = "asdfasf"
 export default ProductScreen;
 
 const css = StyleSheet.create({
@@ -166,10 +166,6 @@ const css = StyleSheet.create({
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
     resizeMode: 'cover'
-  },
-  border: {
-    borderColor: "red",
-    borderWidth: 2
   },
   card: {
     marginVertical: 12,

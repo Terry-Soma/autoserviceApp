@@ -14,7 +14,7 @@ export default (catId, refreshing, setRefreshing) => {
         setLoading(true);
         axios.get(`${restUrl}/api/categories/${catId}/products`).then(result => {
             setProducts(result.data.data);
-            console.log('products All', result.data)
+            // console.log('products All', result.data)
             setError(null);
         })
             .catch(err => {

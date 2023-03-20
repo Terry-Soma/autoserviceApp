@@ -1,10 +1,11 @@
 import React from "react";
-import { View, Image, Alert, } from 'react-native'
+import { View, Image, Alert, Text, } from 'react-native'
 import { DrawerContentScrollView, } from "@react-navigation/drawer";
 import { Feather } from '@expo/vector-icons';
 import { Avatar, Caption, Title, Drawer } from "react-native-paper";
 import { Button } from "react-native-paper";
 import { EvilIcons } from '@expo/vector-icons';
+import { fontVar } from './../../../Constants'
 import { useTheme } from 'react-native-paper';
 export default function SideBar(props) {
   const theme = useTheme();
@@ -23,18 +24,29 @@ export default function SideBar(props) {
               style={{
                 fontSize: 16,
                 marginTop: 3,
-                fontWeight: "bold",
-                lineHeight: 23
+                // lineHeight: 23
+                fontFamily: fontVar.Mont.sb
               }}
             >
               Автомашин сэлбэг
             </Title>
-            <Caption style={{ lineHeight: 14 }}>
+            <Caption style={{ lineHeight: 14, fontFamily: fontVar.Mont.m }}>
               Тавтай морил
             </Caption>
           </View>
         </View>
-        <Drawer.Section title="Үндсэн цэс" >
+        <Drawer.Section >
+          <Caption
+            style={{
+              fontSize: 14,
+              marginTop: 8,
+              // lineHeight: 23
+              paddingLeft: 24,
+              paddingVertical: 4,
+              fontFamily: fontVar.Mont.r
+            }}
+          >Үндсэн цэс
+          </Caption>
           <Drawer.Item
             label="Нүүр"
             active={active === '1'}
@@ -45,7 +57,6 @@ export default function SideBar(props) {
               setActive('1')
               props.navigation.navigate("Home")
             }}
-
           />
           <Drawer.Item
             label="Бараа нэмэх"
