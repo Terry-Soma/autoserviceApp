@@ -76,7 +76,7 @@ const ProductScreen = props => {
       navigate.navigate("Home", { refresh: true });
 
     }).catch(({ response }) => {
-      console.log('err', response.data.error.message)
+      console.log('err', response)
       // show error
       Alert.alert(response.data.error.message)
     }

@@ -9,6 +9,7 @@ import IncomeScreen from './../screens/IncomeScreen'
 import { appbarColor, fontVar, headerTitleStyle } from "../../Constants";
 import { IconButton } from "react-native-paper";
 import SideBar from "./../components/Nav/Sidebar";
+import ManageIncomeScreen from "../screens/ManageIncomeScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -45,6 +46,8 @@ export default () => {
 
       <Drawer.Screen name="Settings" component={SettingsScreen} />
       <Drawer.Screen name="Income" component={IncomeScreen} options={{ title: "Зарсан бараанууд", }} />
+      <Drawer.Screen name="ManageIncome" component={ManageIncomeScreen} options={{ title: "Зарсан бараанууд", }} />
+
 
 
     </Drawer.Navigator >

@@ -108,6 +108,18 @@ export default function SideBar(props) {
               <EvilIcons name="gear" size={size} />
             )}
           />
+          <Drawer.Item
+            label="Орлогын тайлан"
+            // active={active === '3'}
+            icon={({ size }) =>
+              <Feather name="pocket" size={size} color={theme.colors.scrim} />
+            }
+            onPress={() => {
+              setActive('3')
+              props.navigation.navigate("ManageIncome")
+            }
+            }
+          />
           {/* <Drawer.Item
             label="Бараа засах"
             active={active === '3'}
