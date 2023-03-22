@@ -15,21 +15,41 @@ export function formatQueryToDate(query) {
   let year = originalDate.getFullYear();
   let month = originalDate.getMonth();
   let date = originalDate.getDate()
+
   switch (query) {
     case "last7":
-      const last = originalDate.getDate() - 7;
-      break;
-      return `${originalDate.getFullYear()}/${originalDate.getMonth() + 1}/${date.getDate()}`;
+      if (date < 7) {
+        // last month
+        let tempDate = date + 30;
+        return `${year}/${month}/${tempDate - 7} - ${year}/${month + 1}/${date}`;
+      }
+      return `${year}/${month + 1}/${date - 7} -${year}/${month + 1}/${date}`;
     case "last3":
-      return `${year}/${month + 1}/${date}`;
-      break;
+      if (date < 3) {
+        // last month
+        let tempDate = date + 30;
+        return `${year}/${month}/${tempDate - 3} - ${year}/${month + 1}/${date}`;
+      }
+      return `${year}/${month + 1}/${date - 3} -${year}/${month + 1}/${date}`;
     case "lastmonth":
-      break;
+      if (month < 1) {
+        // 0  -> 1 sar
+        let tempMonth = month + 12;
+        return `${year}/${tempMonth}/${date} - ${year}/${month + 1}/${date}`;
+
+      }
+      return `${year}/${month}/${date} - ${year}/${month + 1}/${date}`;
+
     case "last3month":
-      break;
-    default: formattedToday();
-      break;
+      if (date < 90) {
+        // last month
+        let tempDate = date + 30;
+        return `${year}/${month}/${tempDate - 30} - ${year}/${month + 1}/${date}`;
+      }
+      return `${year}/${month + 1}/${date - 7} -${year}/${month + 1}/${date}`;
+      return;
+    default: return formattedToday();
   }
 
-  return ``;
+
 }

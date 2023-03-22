@@ -46,7 +46,7 @@ export default () => {
 
       <Drawer.Screen name="Settings" component={SettingsScreen} />
       <Drawer.Screen name="Income" component={IncomeScreen} options={{ title: "Зарсан бараанууд", }} />
-      <Drawer.Screen name="ManageIncome" component={ManageIncomeScreen} options={{ title: "Зарсан бараанууд", }} />
+      <Drawer.Screen name="ManageIncome" component={ManageIncomeScreen} options={{ title: "Орлогын мэдээлэл", }} />
 
 
 

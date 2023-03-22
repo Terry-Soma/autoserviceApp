@@ -8,7 +8,7 @@ import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage'
 import * as Animatable from "react-native-animatable";
 import FormText from "../components/FormText";
 import FormRadioButtons from "../components/FormRadioButtons";
-import { restUrl } from "../../Constants";
+import { fontVar, restUrl } from "../../Constants";
 import MyButton from "../components/MyButton";
 import useCategory from "../hooks/useCategory";
 import Spinner from "../components/Spinner";
@@ -22,7 +22,7 @@ export default function AddProduct(props) {
   const [productLoc, setProductLoc] = useState(null)
   const [productAmount, setProductAmount] = useState(null);
   const [productCatId, setProductCatId] = useState(null)
-
+  const [productSerial, setProductSerial] = useState(null)
   const [categories, error, loading] = useCategory();
 
   const takeImage = async () => {
@@ -105,7 +105,7 @@ export default function AddProduct(props) {
 
     const data = {
       ner: producName,
-      // serNum:,
+      serNum: productSerial,
       img: imgUrl,
       location: productLoc,
       categoryId: productCatId,
@@ -118,12 +118,22 @@ export default function AddProduct(props) {
     console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.")
     setSaving(false)
 
+    deleteState();
     props.navigation.navigate('Home', {
       createdProduct: result.data.data
     });
 
   }
-
+  const deleteState = () => {
+    setImage(null)
+    setSaving(null)
+    setProductName(null)
+    setProductPrice(null)
+    setProductLoc(null)
+    setProductAmount(null)
+    setProductCatId(null)
+    setProductSerial(null)
+  }
   useEffect(() => {
     (async () => {
       if (Platform.OS !== "web") {
@@ -157,13 +167,12 @@ export default function AddProduct(props) {
     }}>
       <View
         style={{
-          flex: 1,
-          paddingVertical: 10,
+          paddingVertical: 12,
           paddingHorizontal: 20,
-          backgroundColor: "#35495E"
+          backgroundColor: "#35495E",
         }}
       >
-        <Text style={{ fontSize: 24, color: theme.colors.secondaryColor, textAlign: "center" }}>
+        <Text style={{ fontSize: 24, color: theme.colors.secondaryColor, textAlign: "center", fontFamily: fontVar.Man }}>
           Та барааны мэдээллээ оруулна уу
         </Text>
 
@@ -184,7 +193,6 @@ export default function AddProduct(props) {
           }}
         >
           <ScrollView showsVerticalScrollIndicator={false} style={{
-
           }}>
             {/* image picker start */}
             <View style={{
@@ -223,6 +231,15 @@ export default function AddProduct(props) {
               value={productPrice}
               onChangeText={setProductPrice}
               errorText="Барааны үнэ тоо байх ёстой."
+              errorShow={false}
+            />
+            <FormText
+              label="Барааны код дугаар оруулна уу"
+              placeholder="Барааны код"
+              icon="code"
+              value={productSerial}
+              onChangeText={setProductSerial}
+              errorText="Барааны код байх ёстой."
               errorShow={false}
             />
             <FormText
