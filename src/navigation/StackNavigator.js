@@ -6,6 +6,7 @@ import ProductScreen from "../screens/ProductScreen";
 import DrawerNavigator from './DrawerNavigator'
 import { appbarColor, headerTitleStyle } from "../../Constants";
 import ManagePhoneInfoScreen from "../screens/ManagePhoneInfo";
+import LoginScreen from "../screens/LoginScreen";
 
 const Stack = createStackNavigator();
 
@@ -14,14 +15,16 @@ export default () => (
     headerStyle: { backgroundColor: appbarColor },
     headerTintColor: '#FFF',
     headerTitleStyle: headerTitleStyle,
-  }}>
-    <Stack.Screen
+  }}
+    initialRouteName="Login"
+  >
+    {/* <Stack.Screen
       name="Drawer"
       component={DrawerNavigator}
       options={{
         headerShown: false
-      }}
-    />
+      }} */}
+    {/* /> */}
     {/* <Stack.Group screenOptions={{ presentation: 'modal' }}> */}
     <Stack.Screen
       name="ProductDetail"
@@ -34,6 +37,12 @@ export default () => (
       component={ManagePhoneInfoScreen}
     // screenOptions={{ headerMode: 'screen' }}
     />
+    <Stack.Screen
+      name="Login"
+      component={LoginScreen}
+      options={{ title: "Бүртгэлийн хуудас", headerTitleAlign: "center" }}
+    />
+
 
     {/* </Stack.Group> */}
   </Stack.Navigator>
