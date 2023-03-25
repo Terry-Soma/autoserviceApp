@@ -25,6 +25,8 @@ export default function ManageIncomeScreen({ navigate }) {
     setIncomeInfo([])
     try {
       const res = await axios.get(restUrl + "/api/income" + "?sort=" + filterOption);
+      console.log('res.data', res.data)
+
       setIncomeInfo(res.data.data)
       setIncomeLength(res.data["length"])
       setAmount(res.data.incomeResult)

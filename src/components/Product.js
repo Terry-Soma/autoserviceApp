@@ -6,6 +6,7 @@ import { Dimensions } from 'react-native';
 import { restUrl } from '../../Constants';
 const windowWidth = Dimensions.get('window').width;
 const Product = ({ data }) => {
+
   const navigation = useNavigation();
   // console.log('data', data);
 

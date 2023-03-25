@@ -16,6 +16,8 @@ const HomeScreen = ({ navigation, route }) => {
   const [refreshing, setRefreshing] = useState(false)
   const [categories, setCategories, setError, error, loading] = useCategory();
 
+  console.log('categories', categories)
+
   if (route.params && route.params.createdProduct) {
     Alert.alert(route.params.createdProduct.ner + " нэртэй бараа нэмэгдлээ!");
     setRefreshing(true);/* refresh controller */

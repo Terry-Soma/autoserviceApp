@@ -10,11 +10,12 @@ import { appbarColor, fontVar, headerTitleStyle } from "../../Constants";
 import { IconButton } from "react-native-paper";
 import SideBar from "./../components/Nav/Sidebar";
 import ManageIncomeScreen from "../screens/ManageIncomeScreen";
+import QRScreen from "../screens/QRscreen";
+import ManageCategoryScreen from "../screens/ManageCategoryScreen";
 
 const Drawer = createDrawerNavigator();
 
 export default () => {
-  // const state = useContext(UserContex);
 
   // if (state.isLoading === true) {
   //   return <SplashScreen />;
@@ -47,7 +48,18 @@ export default () => {
       <Drawer.Screen name="Settings" component={SettingsScreen} />
       <Drawer.Screen name="Income" component={IncomeScreen} options={{ title: "Зарсан бараанууд", }} />
       <Drawer.Screen name="ManageIncome" component={ManageIncomeScreen} options={{ title: "Орлогын мэдээлэл", }} />
+      <Drawer.Screen name="ManageCategory" component={ManageCategoryScreen}
+        options={({ navigation }) => ({
+          title: "Категорийн мэдээлэл", headerRight: ({ tintColor }) => (
 
+            <IconButton icon={"plus"} size={28} iconColor={tintColor} onPress={() => {
+              navigation.navigate("AddCategory")
+            }} />
+          )
+        })}
+      />
+
+      <Drawer.Screen name="QR Scan" component={QRScreen} options={{}} />
 
 
     </Drawer.Navigator >

@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, Image, Alert, Text, } from 'react-native'
 import { DrawerContentScrollView, } from "@react-navigation/drawer";
 import { Feather } from '@expo/vector-icons';
-import { Avatar, Caption, Title, Drawer } from "react-native-paper";
-import { Button } from "react-native-paper";
+import { Avatar, Caption, Title, Drawer, Button, useTheme } from "react-native-paper";
 import { EvilIcons } from '@expo/vector-icons';
 import { fontVar } from './../../../Constants'
-import { useTheme } from 'react-native-paper';
+import UserContext from "../../context/userContext";
 export default function SideBar(props) {
+  const userState = useContext(UserContext)
   const theme = useTheme();
   const [active, setActive] = React.useState('1');
 
@@ -31,7 +31,7 @@ export default function SideBar(props) {
               Автомашин сэлбэг
             </Title>
             <Caption style={{ lineHeight: 14, fontFamily: fontVar.Mont.m }}>
-              Тавтай морил
+              Тавтай морил {userState.userName}
             </Caption>
           </View>
         </View>
@@ -94,33 +94,59 @@ export default function SideBar(props) {
             }
             }
           />
-
-        </Drawer.Section>
-
-        <Drawer.Section >
           <Drawer.Item
-            label="Тохиргоо"
-            onPress={() => {
-              Alert.alert("Засвар", "Одоогоор энэ функц хөгжүүлэгдэж байна")
-              props.navigation.navigate("Settings")
-            }}
-            icon={({ size }) => (
-              <EvilIcons name="gear" size={size} />
-            )}
-          />
-          <Drawer.Item
-            label="Орлогын тайлан"
+            label="Категорууд"
             // active={active === '3'}
             icon={({ size }) =>
-              <Feather name="pocket" size={size} color={theme.colors.scrim} />
+              <Feather name="layers" size={size} color={theme.colors.scrim} />
             }
             onPress={() => {
               setActive('3')
-              props.navigation.navigate("ManageIncome")
+              props.navigation.navigate("ManageCategory")
             }
             }
           />
-          {/* <Drawer.Item
+
+
+        </Drawer.Section>
+
+        {userState.userRole == "admin" && (
+          <Drawer.Section >
+            <Drawer.Item
+              label="Тохиргоо"
+              onPress={() => {
+                Alert.alert("Засвар", "Одоогоор энэ функц хөгжүүлэгдэж байна")
+                props.navigation.navigate("Settings")
+              }}
+              icon={({ size }) => (
+                <EvilIcons name="gear" size={size} />
+              )}
+            />
+            <Drawer.Item
+              label="Орлогын тайлан"
+              // active={active === '3'}
+              icon={({ size }) =>
+                <Feather name="pocket" size={size} color={theme.colors.scrim} />
+              }
+              onPress={() => {
+                setActive('3')
+                props.navigation.navigate("ManageIncome")
+              }
+              }
+            />
+            <Drawer.Item
+              label="Орлогын тайлан"
+              // active={active === '3'}
+              icon={({ size }) =>
+                <Feather name="pocket" size={size} color={theme.colors.scrim} />
+              }
+              onPress={() => {
+                setActive('3')
+                props.navigation.navigate("QR Scan")
+              }
+              }
+            />
+            {/* <Drawer.Item
             label="Бараа засах"
             active={active === '3'}
             icon={({ size }) =>
@@ -133,21 +159,22 @@ export default function SideBar(props) {
             }
           /> */}
 
-          <Button
-            icon={({ size, }) => (
-              <Image
-                source={require('./../../../assets/favicon.png')}
-                style={{
-                  width: size,
-                  height: size,
-                  tintColor: theme.colors.scrim
-                }}
-              />
-            )}
-          >
-            Press me
-          </Button>
-        </Drawer.Section>
+            <Button
+              icon={({ size, }) => (
+                <Image
+                  source={require('./../../../assets/favicon.png')}
+                  style={{
+                    width: size,
+                    height: size,
+                    tintColor: theme.colors.scrim
+                  }}
+                />
+              )}
+            >
+              Press me
+            </Button>
+          </Drawer.Section>)}
+
       </DrawerContentScrollView >
     </View >
   )

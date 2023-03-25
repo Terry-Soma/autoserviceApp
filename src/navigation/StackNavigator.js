@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   createStackNavigator,
 } from "@react-navigation/stack";
@@ -7,43 +7,64 @@ import DrawerNavigator from './DrawerNavigator'
 import { appbarColor, headerTitleStyle } from "../../Constants";
 import ManagePhoneInfoScreen from "../screens/ManagePhoneInfo";
 import LoginScreen from "../screens/LoginScreen";
-
+import UserContext from './../context/userContext'
+import CategoryProductsScreen from "../screens/CategoryProductsScreen";
+import AddCategory from "../screens/AddCategory";
 const Stack = createStackNavigator();
 
-export default () => (
-  <Stack.Navigator screenOptions={{
-    headerStyle: { backgroundColor: appbarColor },
-    headerTintColor: '#FFF',
-    headerTitleStyle: headerTitleStyle,
-  }}
-    initialRouteName="Login"
-  >
-    {/* <Stack.Screen
-      name="Drawer"
-      component={DrawerNavigator}
-      options={{
-        headerShown: false
-      }} */}
-    {/* /> */}
-    {/* <Stack.Group screenOptions={{ presentation: 'modal' }}> */}
-    <Stack.Screen
-      name="ProductDetail"
-      component={ProductScreen}
-      options={({ route, navigation }) => ({ title: route.params.product?.ner })}
-      screenOptions={{ headerMode: 'screen' }}
-    />
-    <Stack.Screen
-      name="ManagePhoneInfo"
-      component={ManagePhoneInfoScreen}
-    // screenOptions={{ headerMode: 'screen' }}
-    />
-    <Stack.Screen
-      name="Login"
-      component={LoginScreen}
-      options={{ title: "Бүртгэлийн хуудас", headerTitleAlign: "center" }}
-    />
+export default () => {
+  const userState = useContext(UserContext);
 
 
-    {/* </Stack.Group> */}
-  </Stack.Navigator>
-);
+  return (
+    <Stack.Navigator screenOptions={{
+      headerStyle: { backgroundColor: appbarColor },
+      headerTintColor: '#FFF',
+      headerTitleStyle: headerTitleStyle,
+    }}
+    >
+      {/* conditional route */}
+      {userState.isLoggedIn ? (
+        <Stack.Group>
+          <Stack.Screen
+            name="Drawer"
+            component={DrawerNavigator}
+            options={{
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
+            name="ProductDetail"
+            component={ProductScreen}
+            options={({ route, navigation }) => ({ title: route.params.product?.ner })}
+            screenOptions={{ headerMode: 'screen' }}
+          />
+          <Stack.Screen
+            name="ManagePhoneInfo"
+            component={ManagePhoneInfoScreen}
+          // screenOptions={{ headerMode: 'screen' }}
+          />
+          <Stack.Screen
+            name="AddCategory"
+            component={AddCategory}
+          // screenOptions={{ headerMode: 'screen' }}
+          />
+          <Stack.Screen
+            name="CategoryProducts"
+            component={CategoryProductsScreen}
+            options={({ route, navigation }) => ({ title: route.params.category?.ner })}
+          // screenOptions={{ headerMode: 'screen' }}
+          />
+        </Stack.Group>) : (<Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{ title: "Бүртгэлийн хуудас", headerTitleAlign: "center" }}
+        />)}
+
+
+
+
+      {/* </Stack.Group> */}
+    </Stack.Navigator>
+  );
+}

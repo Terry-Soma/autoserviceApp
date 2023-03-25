@@ -31,5 +31,5 @@ export default (catId, refreshing, setRefreshing) => {
             }).finally(() => setLoading(false));
     }, [catId]);
 
-    return [products, error, searchProduct, loading];
+    return [products, error, loading, searchProduct];
 }

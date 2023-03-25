@@ -7,6 +7,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 import { View } from 'react-native';
 import { fontOptions } from './Constants';
+import { UserStore } from './src/context/userContext';
 SplashScreen.preventAutoHideAsync();
 const theme = {
   ...DefaultTheme,
@@ -43,10 +44,12 @@ const App = () => {
   }
   return (
     <PaperProvider theme={theme} >
-      <StatusBar style='light' />
-      <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-        <Navigation onLayoutRootView={onLayoutRootView} />
-      </View>
+      <StatusBar style='black' />
+      <UserStore>
+        <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+          <Navigation />
+        </View>
+      </UserStore>
     </PaperProvider>
   );
 }

@@ -4,7 +4,6 @@ export const restUrl = 'http://192.168.1.16:1234';
 export const appbarColor = "#33AFAA"
 
 export const fontOptions = {
-  'Garamond': require('./assets/fonts/EBGaramond-VariableFont_wght.ttf'),
   'Manrope': require('./assets/fonts/Manrope-VariableFont_wght.ttf'),
   'M.B': require('./assets/fonts/Montserrat-Bold.ttf'),
   'M.EB': require('./assets/fonts/Montserrat-ExtraBold.ttf'),
@@ -15,7 +14,6 @@ export const fontOptions = {
   'M.SB': require('./assets/fonts/Montserrat-SemiBold.ttf'),
 }
 export const fontVar = {
-  Gar: "Garamond",
   Man: "Manrope",
   Mont: {
     m: "M.M",
