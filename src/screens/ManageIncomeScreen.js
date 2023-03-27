@@ -34,7 +34,6 @@ export default function ManageIncomeScreen({ navigate }) {
     }
   }, [filterOption])
   useEffect(() => {
-    console.log('bi ajillaaa ')
 
     fetchData();
   }, [filterOption, fetchData])

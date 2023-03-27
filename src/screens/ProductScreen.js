@@ -1,5 +1,5 @@
 import { Alert, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { ScrollView } from 'react-native-gesture-handler';
 import { restUrl } from '../../Constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -11,11 +11,13 @@ import axios from 'axios';
 import MyButton from '../components/MyButton';
 import Spinner from '../components/Spinner';
 import { useNavigation } from '@react-navigation/native';
+import UserContext from '../context/userContext';
 
 
 const ProductScreen = props => {
   const { product } = props.route?.params;
   const navigate = useNavigation();
+  const userCtx = useContext(UserContext)
 
   const [quantity, setQuantity] = useState("1");
   // const [price, setPrice] = useState(product.une)
@@ -147,6 +149,9 @@ const ProductScreen = props => {
 
         {loading ? <Spinner showText={false} /> : (<MyButton style={css.button} onPress={purchaseProduct}>Авах</MyButton>)}
 
+        {userCtx.userRole == "admin" && (
+          <MyButton style={css.button} onPress={() => { navigate.navigate("ManageProduct", { product: productInfo }) }}>Барааны мэдээлэл өөрчлөх</MyButton>
+        )}
         {/* bish bol */}
 
 

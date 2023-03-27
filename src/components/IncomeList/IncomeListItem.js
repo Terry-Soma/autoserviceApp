@@ -6,6 +6,7 @@ import { formattedDate } from "./../../utils/date";
 import thousandify from 'thousandify'
 
 const IncomeListItem = (item) => {
+
   return (
     <View style={css.incomeItem}>
       <View style={[{
@@ -21,7 +22,7 @@ const IncomeListItem = (item) => {
           paddingHorizontal: 4,
         }}>
           <Text style={{ fontSize: 16, fontFamily: fontVar.Mont.b, }}>
-            {item.product.ner}
+            {item.pNer}
           </Text>
           <View style={{
             flexDirection: 'column',
@@ -39,7 +40,7 @@ const IncomeListItem = (item) => {
                 <Text
                   style={{ fontSize: 16, lineHeight: 20, fontFamily: fontVar.Mont.r }}
                 >
-                  {item.shirheg}ш
+                  {item.sellCount}ш
                 </Text>
               </View>
               <View style={{
@@ -49,7 +50,7 @@ const IncomeListItem = (item) => {
                 flex: 1
               }}>
                 <Text style={{ fontSize: 16, fontFamily: fontVar.Mont.m }}>
-                  Үнэ-{thousandify(`${item.product.une}`)}₮
+                  Үнэ-{thousandify(`${item.pUne}`)}₮
                 </Text>
               </View>
             </View>
@@ -90,7 +91,7 @@ const IncomeListItem = (item) => {
           alignItems: "center",
         }}>
           <Text style={{ fontWeight: "700", color: "#f3f3f3" }}>
-            {thousandify(`${item.product.une * item.shirheg}`)}₮
+            {thousandify(`${item.pUne * item.sellCount}`)}₮
           </Text>
           <Text style={{ color: "#fff", fontSize: 14 }}>Нийт дүн</Text>
         </View>

@@ -30,7 +30,7 @@ const CategoryProductsScreen = ({ navigation, route }) => {
   return (
     <SafeAreaView style={{ flex1: 1, marginHorizontal: 8 }}>
 
-      {products.length > 0 &&
+      {products.length > 0 ?
         (<FlatList
           showsHorizontalScrollIndicator={false}
           data={products}
@@ -74,7 +74,8 @@ const CategoryProductsScreen = ({ navigation, route }) => {
             )
           }}
         />
-        )
+        ) :
+        (<Text style={{ textAlign: "center", fontFamily: fontVar.Man, fontSize: 22 }} >Энэ Категорид бараа алга</Text>)
 
       }
     </SafeAreaView>

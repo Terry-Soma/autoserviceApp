@@ -18,7 +18,7 @@ const IncomeScreen = () => {
   const [incomes, setIncomes] = useState([])
   //fetch zarsan baraanuud
   useEffect(() => {
-    axios.get(restUrl + "/api/income")
+    axios.get(restUrl + "/api/views/income")
       .then(result => {
         setIncomes(result.data.data)
         // setIncomeLength(result.data.length)
@@ -29,8 +29,9 @@ const IncomeScreen = () => {
       })
   }, []);
 
-  const filteredIncome = incomes.filter((income) => income.product.ner.toLowerCase().includes(seachVal.toLowerCase()))
-  // {"id": 4, "product": {"categoryId": 1, "come_date": "2022-02-13", "id": 1, "img": null, "location": "Гаражны хойд тавиур", "ner": "95 урд гэрэл", "serNum": "", "shirheg": 7, "une": 100}, "productId": 1, "sell_date": "2023-03-13T07:13:16.000Z", "shirheg": 2, "userId": 1}
+  const filteredIncome = incomes.filter((income) => income.pNer.toLowerCase().includes(seachVal.toLowerCase()))
+  //  {
+
 
   return (
     <SafeAreaView style={{ flex: 1, }}>

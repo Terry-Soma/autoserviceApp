@@ -14,11 +14,12 @@ import SearchQRScreen from "../screens/SearchQRscreen";
 import InsertQRScreen from "../screens/InsertQRScreen";
 
 import ManageCategoryScreen from "../screens/ManageCategoryScreen";
+import UserContext from "../context/userContext";
 InsertQRScreen
 const Drawer = createDrawerNavigator();
 
 export default () => {
-
+  const userState = useContext(UserContext)
   // if (state.isLoading === true) {
   //   return <SplashScreen />;
   // }
@@ -34,7 +35,16 @@ export default () => {
       }}
       drawerContent={props => <SideBar {...props} />}
     >
-      <Drawer.Screen name="Home" component={HomeScreen} options={{ title: "Бараанууд" }} />
+      <Drawer.Screen name="Home" component={HomeScreen}
+        options={({ navigation }) => ({
+          title: "Бараанууд", headerRight: ({ tintColor }) => (
+
+            <IconButton icon={"logout"} size={28} iconColor={tintColor} onPress={
+              () =>
+                userState.logout()
+            } />
+          )
+        })} />
       <Drawer.Screen name="AddProduct" component={AddProductScreen} options={{ title: "Бараа нэмэх" }} />
 
       <Drawer.Screen name="PhoneInfo" component={PhoneInfoScreen} options={({ navigation }) => ({

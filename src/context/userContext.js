@@ -6,35 +6,45 @@ import { async } from "@firebase/util";
 
 const UserContext = React.createContext()
 export const UserStore = props => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [token, setToken] = useState(null);
   const [userName, setUserName] = useState(null);
-  const [userRole, setUserRole] = useState("admin")
+  const [userRole, setUserRole] = useState(null)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
   // token dotroo userId and role aguulagdsan baigaa uchir iluu medeelel 
   // yvuulahgui shiidye tegvel app dotroo yaj serialize hiihiin
 
-  // useEffect(() => {
-  //   const getItem = async () => {
-  //     const token = await AsyncStorage.getItem("token")
-  //     let userInfo = await AsyncStorage.getItem('userInfo')
-  //     console.log('type of ', typeof userInfo)
+  useEffect(() => {
+    const getItem = async () => {
+      const token = await AsyncStorage.getItem("token")
+      let userInfo = await AsyncStorage.getItem('userInfo')
+      console.log('type of ', typeof userInfo)
 
-  //     userInfo = userInfo != null ? JSON.parse(userInfo) : null
-  //     if (userInfo == null || token == null) {
-  //       return;
-  //     }
+      userInfo = userInfo != null ? JSON.parse(userInfo) : null
+      if (userInfo == null || token == null) {
+        return;
+      }
 
-  //     loginStateChange(token, userInfo)
+      loginStateChange(token, userInfo)
 
-  //     // await AsyncStorage.clear()
-  //   }
-  //   getItem()
+      // await AsyncStorage.clear()
+    }
+    getItem()
 
-  // },
-  //   []);
+  },
+    []);
 
+  const logout = async () => {
+    await AsyncStorage.removeItem("token");
+    await AsyncStorage.removeItem("userInfo");
+
+    // await axios.get(`${restApiUrl}/api/v1/users/logout`);
+    setIsLoggedIn(false);
+    setToken(null);
+    setUserName(null);
+    setUserRole(null);
+  };
   const loginStateChange = (token, userInfo = {}) => {
     setIsLoggedIn(true)
     setToken(token)
@@ -75,7 +85,7 @@ export const UserStore = props => {
     setLoading(false)
   }
   return (
-    <UserContext.Provider value={{ isLoggedIn, token, userRole, userName, Login, error, loading }}>
+    <UserContext.Provider value={{ isLoggedIn, token, userRole, userName, Login, error, loading, logout }}>
       {props.children}
     </UserContext.Provider>
   )

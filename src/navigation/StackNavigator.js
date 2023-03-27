@@ -10,6 +10,7 @@ import LoginScreen from "../screens/LoginScreen";
 import UserContext from './../context/userContext'
 import CategoryProductsScreen from "../screens/CategoryProductsScreen";
 import AddCategory from "../screens/AddCategory";
+import ManageProduct from "../screens/ManageProduct";
 const Stack = createStackNavigator();
 
 export default () => {
@@ -55,7 +56,15 @@ export default () => {
             options={({ route, navigation }) => ({ title: route.params.category?.ner })}
           // screenOptions={{ headerMode: 'screen' }}
           />
-        </Stack.Group>) : (<Stack.Screen
+          <Stack.Screen
+            name="ManageProduct"
+            component={ManageProduct}
+            options={({ route, navigation }) => ({ title: route.params.product?.ner })}
+          // screenOptions={{ headerMode: 'screen' }}
+          />
+        </Stack.Group>
+      ) :
+        (<Stack.Screen
           name="Login"
           component={LoginScreen}
           options={{ title: "Бүртгэлийн хуудас", headerTitleAlign: "center" }}
