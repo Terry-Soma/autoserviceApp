@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
-import React from 'react'
+import React, { useEffect } from 'react'
 
 const Spinner = ({ showText = true, circleColor = "#2C3E50", textStyle = {} }) => {
+
   return (
     <View style={{ marginVertical: 10, flex: 1, alignSelf: "center", justifyContent: "center" }}>
 

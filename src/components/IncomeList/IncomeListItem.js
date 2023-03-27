@@ -90,7 +90,7 @@ const IncomeListItem = (item) => {
           alignItems: "center",
         }}>
           <Text style={{ fontWeight: "700", color: "#f3f3f3" }}>
-            {thousandify(`${item.product.une * item.shirheg}0000`)}₮
+            {thousandify(`${item.product.une * item.shirheg}`)}₮
           </Text>
           <Text style={{ color: "#fff", fontSize: 14 }}>Нийт дүн</Text>
         </View>

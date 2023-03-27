@@ -10,9 +10,11 @@ import { appbarColor, fontVar, headerTitleStyle } from "../../Constants";
 import { IconButton } from "react-native-paper";
 import SideBar from "./../components/Nav/Sidebar";
 import ManageIncomeScreen from "../screens/ManageIncomeScreen";
-import QRScreen from "../screens/QRscreen";
-import ManageCategoryScreen from "../screens/ManageCategoryScreen";
+import SearchQRScreen from "../screens/SearchQRscreen";
+import InsertQRScreen from "../screens/InsertQRScreen";
 
+import ManageCategoryScreen from "../screens/ManageCategoryScreen";
+InsertQRScreen
 const Drawer = createDrawerNavigator();
 
 export default () => {
@@ -59,7 +61,8 @@ export default () => {
         })}
       />
 
-      <Drawer.Screen name="QR Scan" component={QRScreen} options={{}} />
+      <Drawer.Screen name="QR Screen" component={SearchQRScreen} options={{ title: "Барааны бар код болон QR код" }} />
+      <Drawer.Screen name="Insert QR Screen" component={InsertQRScreen} options={{ title: "Шинээр нэмэх барааны код" }} />
 
 
     </Drawer.Navigator >

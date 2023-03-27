@@ -13,7 +13,8 @@ import MyButton from "../components/MyButton";
 import useCategory from "../hooks/useCategory";
 import Spinner from "../components/Spinner";
 import { useTheme } from 'react-native-paper';
-export default function AddProduct(props) {
+import { useIsFocused, useRoute } from '@react-navigation/native';
+export default function AddProduct({ navigation, route }) {
   const theme = useTheme();
   const [image, setImage] = useState();
   const [saving, setSaving] = useState(false)
@@ -23,7 +24,17 @@ export default function AddProduct(props) {
   const [productAmount, setProductAmount] = useState(null);
   const [productCatId, setProductCatId] = useState(null)
   const [productSerial, setProductSerial] = useState(null)
-  const [categories, error, loading] = useCategory();
+  const [categories, setCategories, setError, error, loading] = useCategory();
+  const isFocused = useIsFocused()
+  console.log('route', route)
+
+  if (route.params && route.params.serNum) {
+    alert(route.params.serNum + " кодыг амжилттай уншлаа!");
+    setProductSerial(route.params.serNum)
+    delete route.params.serNum;
+  }
+
+
 
   const takeImage = async () => {
     const result = await ImagePicker.getCameraPermissionsAsync();
@@ -119,7 +130,7 @@ export default function AddProduct(props) {
     setSaving(false)
 
     deleteState();
-    props.navigation.navigate('Home', {
+    navigation.navigate('Home', {
       createdProduct: result.data.data
     });
 
@@ -280,7 +291,7 @@ export default function AddProduct(props) {
               }}
             >
               <MyButton style={css.button}
-                onPress={() => props.navigation.goBack()}
+                onPress={() => navigation.goBack()}
               >Буцах</MyButton>
               <MyButton style={css.button} onPress={sendProductToServer}>Бүртгэх</MyButton>
             </View>

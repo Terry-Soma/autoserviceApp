@@ -15,6 +15,7 @@ export function formatQueryToDate(query) {
   let year = originalDate.getFullYear();
   let month = originalDate.getMonth();
   let date = originalDate.getDate()
+  console.log('month', month)
 
   switch (query) {
     case "last7":
@@ -41,13 +42,12 @@ export function formatQueryToDate(query) {
       return `${year}/${month}/${date} - ${year}/${month + 1}/${date}`;
 
     case "last3month":
-      if (date < 90) {
-        // last month
-        let tempDate = date + 30;
-        return `${year}/${month}/${tempDate - 30} - ${year}/${month + 1}/${date}`;
+      if (month - 2 <= 0) {
+        let tempMonth = month + 12 - 2;
+        return `${year}/${tempMonth}/${date} - ${year}/${month + 1}/${date}`;
       }
       return `${year}/${month + 1}/${date - 7} -${year}/${month + 1}/${date}`;
-      return;
+
     default: return formattedToday();
   }
 

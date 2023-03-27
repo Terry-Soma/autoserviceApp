@@ -7,16 +7,19 @@ import { TextInput } from 'react-native';
 import MyButton from '../components/MyButton';
 import axios from 'axios';
 import { restUrl } from './../../Constants';
-import { CommonActions } from '@react-navigation/native';
+import { CommonActions, useNavigation } from '@react-navigation/native';
 import { IconButton } from 'react-native-paper';
 export default function AddCategory() {
   const [name, setName] = useState(null)
+  const navigation = useNavigation()
   const saveCategory = async () => {
     try {
-      const result = await axios.create(`${restUrl}/api/categories`, { ner: name });
+      const result = await axios.post(`${restUrl}/api/categories`, { ner: name });
+      console.log('res', result)
+
       result.status === 201 && navigation.navigate("ManageCategory", { createdCat: result.data.data })
     } catch (error) {
-      console.log('err', error.response.data.message)
+      console.log('err', error)
 
     }
   }

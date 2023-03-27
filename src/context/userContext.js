@@ -9,7 +9,7 @@ export const UserStore = props => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [token, setToken] = useState(null);
   const [userName, setUserName] = useState(null);
-  const [userRole, setUserRole] = useState(null)
+  const [userRole, setUserRole] = useState("admin")
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
   // token dotroo userId and role aguulagdsan baigaa uchir iluu medeelel 

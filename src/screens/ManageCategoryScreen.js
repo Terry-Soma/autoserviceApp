@@ -5,7 +5,7 @@ import useCategory from "../hooks/useCategory";
 import { Feather } from '@expo/vector-icons';
 import { fontVar } from "../../Constants";
 import { FAB } from "react-native-paper";
-const ManageCategoryScreen = ({ navigation }) => {
+const ManageCategoryScreen = ({ navigation, route }) => {
 
 
   const [searchValue, setSearchValue] = useState("")
@@ -25,7 +25,7 @@ const ManageCategoryScreen = ({ navigation }) => {
       //   delete route.params.refresh
       // }
       if (route.params?.createdCat) {
-        setCategories(prev => [...prev, ...createdCat])
+        setCategories(prev => [...prev, route.params.createdCat])
         delete route.params?.createdCat
       }
 
@@ -44,22 +44,25 @@ const ManageCategoryScreen = ({ navigation }) => {
         value={searchValue}
         onValueChange={setSearchValue} />
 
-      <FlatList data={filteredItems} renderItem={({ item }) => {
-        return (
-          <Pressable onPress={() => navigation.navigate("CategoryProducts", { category: item })}
-            style={({ pressed }) => [{ height: 36, backgroundColor: "white", marginVertical: 4, borderRadius: 12, elevation: 5, padding: 2, justifyContent: "center" }, pressed && {
-              opacity: 0.5,
-              backgroundColor: "#ECECEC",
-              borderRadius: 4,
-            }]}
-            android_ripple={{ color: "#ccc" }}>
-            <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingHorizontal: 6 }}>
-              <Text style={{ marginLeft: 12, fontFamily: fontVar.Mont.sb, fontSize: 16 }}>{item.ner}</Text>
-              <Feather name="chevron-right" size={24} color="black" />
-            </View>
-          </Pressable>
-        )
-      }}
+      <FlatList data={filteredItems}
+        showsVerticalScrollIndicator={false}
+        renderItem={({ item }) => {
+
+          return (
+            <Pressable onPress={() => navigation.navigate("CategoryProducts", { category: item })}
+              style={({ pressed }) => [{ height: 36, backgroundColor: "white", marginVertical: 4, borderRadius: 12, elevation: 5, padding: 2, justifyContent: "center" }, pressed && {
+                opacity: 0.5,
+                backgroundColor: "#ECECEC",
+                borderRadius: 4,
+              }]}
+              android_ripple={{ color: "#ccc" }}>
+              <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingHorizontal: 6 }}>
+                <Text style={{ marginLeft: 12, fontFamily: fontVar.Mont.sb, fontSize: 16 }}>{item.ner}</Text>
+                <Feather name="chevron-right" size={24} color="black" />
+              </View>
+            </Pressable>
+          )
+        }}
         keyExtractor={(item) => item.id} />
 
       {/* add category */}

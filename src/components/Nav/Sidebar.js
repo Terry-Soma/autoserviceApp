@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useCallback, useContext } from "react";
 import { View, Image, Alert, Text, } from 'react-native'
 import { DrawerContentScrollView, } from "@react-navigation/drawer";
 import { Feather } from '@expo/vector-icons';
@@ -7,9 +7,12 @@ import { EvilIcons } from '@expo/vector-icons';
 import { fontVar } from './../../../Constants'
 import UserContext from "../../context/userContext";
 export default function SideBar(props) {
+
+
+  const { state } = props
+  const currentRoute = state.routeNames[state.index]
   const userState = useContext(UserContext)
   const theme = useTheme();
-  const [active, setActive] = React.useState('1');
 
   return (
     <View style={{ flex: 1, }}>
@@ -49,59 +52,54 @@ export default function SideBar(props) {
           </Caption>
           <Drawer.Item
             label="Нүүр"
-            active={active === '1'}
+            active={currentRoute === 'Home'}
             icon={({ color, size }) =>
               <Feather name="home" size={size} color={color} />
             }
             onPress={() => {
-              setActive('1')
               props.navigation.navigate("Home")
             }}
           />
           <Drawer.Item
             label="Бараа нэмэх"
-            active={active === '2'}
+            active={currentRoute === 'AddProduct'}
             icon={({ size }) =>
               <Feather name="package" size={size} color={theme.colors.scrim} />
             }
             onPress={() => {
-              setActive('2')
               props.navigation.navigate("AddProduct")
             }
             }
           />
           <Drawer.Item
             label="Утасны дугаар"
-            // active={active === '3'}
+            active={currentRoute === 'PhoneInfo'}
             icon={({ size }) =>
               <Feather name="phone" size={size} color={theme.colors.scrim} />
             }
             onPress={() => {
-              setActive('3')
               props.navigation.navigate("PhoneInfo")
             }
             }
           />
           <Drawer.Item
             label="Зарсан бараанууд"
-            // active={active === '3'}
+            active={currentRoute === 'Income'}
             icon={({ size }) =>
               <Feather name="dollar-sign" size={size} color={theme.colors.scrim} />
             }
             onPress={() => {
-              setActive('3')
               props.navigation.navigate("Income")
             }
             }
           />
           <Drawer.Item
             label="Категорууд"
-            // active={active === '3'}
+            active={currentRoute === 'ManageCategory'}
             icon={({ size }) =>
               <Feather name="layers" size={size} color={theme.colors.scrim} />
             }
             onPress={() => {
-              setActive('3')
               props.navigation.navigate("ManageCategory")
             }
             }
@@ -114,6 +112,7 @@ export default function SideBar(props) {
           <Drawer.Section >
             <Drawer.Item
               label="Тохиргоо"
+              active={currentRoute === "Settings"}
               onPress={() => {
                 Alert.alert("Засвар", "Одоогоор энэ функц хөгжүүлэгдэж байна")
                 props.navigation.navigate("Settings")
@@ -124,28 +123,28 @@ export default function SideBar(props) {
             />
             <Drawer.Item
               label="Орлогын тайлан"
-              // active={active === '3'}
+              active={currentRoute === 'ManageIncome'}
+
               icon={({ size }) =>
                 <Feather name="pocket" size={size} color={theme.colors.scrim} />
               }
               onPress={() => {
-                setActive('3')
                 props.navigation.navigate("ManageIncome")
               }
               }
             />
-            <Drawer.Item
+            {/* <Drawer.Item
               label="Орлогын тайлан"
               // active={active === '3'}
+
               icon={({ size }) =>
                 <Feather name="pocket" size={size} color={theme.colors.scrim} />
               }
               onPress={() => {
-                setActive('3')
                 props.navigation.navigate("QR Scan")
               }
               }
-            />
+            /> */}
             {/* <Drawer.Item
             label="Бараа засах"
             active={active === '3'}
@@ -153,7 +152,6 @@ export default function SideBar(props) {
               <Feather name="package" size={size} color={theme.colors.scrim} />
             }
             onPress={() => {
-              setActive('3')
               props.navigation.navigate("Бараа засах")
             }
             }
@@ -171,7 +169,7 @@ export default function SideBar(props) {
                 />
               )}
             >
-              Press me
+
             </Button>
           </Drawer.Section>)}
 

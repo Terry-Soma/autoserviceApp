@@ -1,7 +1,6 @@
-import { Text, ScrollView, View, Alert, RefreshControl, SafeAreaView } from 'react-native'
+import { ScrollView, Alert, RefreshControl, SafeAreaView } from 'react-native'
 import React, { useCallback, useState } from 'react'
-import Search from '../components/Search'
-import Spinner from '../components/Spinner';
+
 
 import useCategory from '../hooks/useCategory';
 import CategoryProductList from '../components/CategoryProductList';
@@ -10,13 +9,15 @@ import axios from 'axios';
 import { restUrl } from '../../Constants';
 import ErrorText from '../components/ErrorText';
 import { useFocusEffect } from '@react-navigation/native';
+import Search from '../components/Search'
+import Spinner from '../components/Spinner';
+import { FAB } from 'react-native-paper';
 const HomeScreen = ({ navigation, route }) => {
   const [localSearchText, setLocalSearchText] = useState("");
   const [serverSearchText, setServerSearchText] = useState("");
   const [refreshing, setRefreshing] = useState(false)
   const [categories, setCategories, setError, error, loading] = useCategory();
 
-  console.log('categories', categories)
 
   if (route.params && route.params.createdProduct) {
     Alert.alert(route.params.createdProduct.ner + " нэртэй бараа нэмэгдлээ!");
@@ -27,10 +28,6 @@ const HomeScreen = ({ navigation, route }) => {
     setRefreshing(true);
     delete route.params.refresh;
   }
-
-
-  // const onRefresh = ;
-
   // call each focus 
   useFocusEffect(
     useCallback(() => {
@@ -109,6 +106,35 @@ const HomeScreen = ({ navigation, route }) => {
             data={category}
           />)) : null}
       </ScrollView>
+      {/* fab */}
+      <FAB
+        icon="archive-search"
+        mode="elevated"
+        label=""
+        size='medium'
+        style={{
+          backgroundColor: "#7DCEA0",
+          position: 'absolute',
+          margin: 16,
+          right: 0,
+          bottom: 0,
+        }}
+        onPress={() => navigation.navigate("QR Screen")}
+      />
+      <FAB
+        icon="archive-plus"
+        mode="elevated"
+        label=""
+        size='medium'
+        style={{
+          // backgroundColor: "#7DCEA0",
+          position: 'absolute',
+          margin: 16,
+          right: 64,
+          bottom: 0,
+        }}
+        onPress={() => navigation.navigate("Insert QR Screen")}
+      />
     </SafeAreaView>
   )
 }

@@ -13,14 +13,18 @@ const TopProduct = props => {
     el.ner.toLowerCase().includes(props.searchLocalValue.toLowerCase())
   );
 
-  if (filteredItems.length <= 0) {
-    return <Text style={{ fontSize: 24, fontWeight: "500", color: "#2C3E50", width: "100%", textAlign: "center" }}>Хайсан бараа олдсонгүй</Text>;
-  }
+  // if (filteredItems.length <= 0) {
+  //   return ;
+  // }
   return (
+
     <View style={{ marginLeft: 8, flex: 1, padding: 2, marginBottom: 12 }}>
-      <View style={{ marginHorizontal: 4, marginVertical: 6, backgroundColor: "#7DCEA0", paddingHorizontal: 6, paddingVertical: 6, borderRadius: 12, maxWidth: "50%" }}>
-        <Text style={{ fontSize: 24, fontWeight: "500", color: "#2C3E50", width: "100%", textAlign: "center" }}>Их эрэлттэй </Text>
-      </View>
+      {filteredItems.length > 0 && (
+        <View style={{ marginHorizontal: 4, marginVertical: 6, backgroundColor: "#7DCEA0", paddingHorizontal: 6, paddingVertical: 6, borderRadius: 12, maxWidth: "50%" }}>
+          <Text style={{ fontSize: 24, fontWeight: "500", color: "#2C3E50", width: "100%", textAlign: "center" }}>Их эрэлттэй </Text>
+        </View>
+      )}
+
       {loading && <Spinner showText={false} circleColor="#333" />}
       {error && (
         <Text style={{ marginLeft: 15, color: "red" }}>{error}</Text>
@@ -58,7 +62,6 @@ const TopProduct = props => {
           />
         ) : null}
     </View >
-
   )
 }
 

@@ -21,11 +21,9 @@ export default function ManageIncomeScreen({ navigate }) {
   const searchOption = [{ title: "Өнөөдөр", option: "today" }, { title: "#3 хоног", option: "last3" }, { title: "#7 хоног", option: "last7" }, { title: "#1 cар", option: "lastmonth" }, { title: "#3 сар", option: "last3month" }];
   const fetchData = useCallback(async () => {
     setDate(formatQueryToDate(filterOption))
-    console.log('filteredOption', filterOption)
     setIncomeInfo([])
     try {
       const res = await axios.get(restUrl + "/api/income" + "?sort=" + filterOption);
-      console.log('res.data', res.data)
 
       setIncomeInfo(res.data.data)
       setIncomeLength(res.data["length"])
