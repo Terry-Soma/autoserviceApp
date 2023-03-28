@@ -4,7 +4,6 @@ import React, { useContext, useState } from "react";
 import { Alert, SafeAreaView, View } from "react-native";
 import { TextInput, Button, Text } from 'react-native-paper';
 import { fontVar, restUrl } from "../../Constants";
-import axios from "axios";
 import ErrorText from "../components/ErrorText";
 import UserContext from "../context/userContext";
 
@@ -51,7 +50,7 @@ export default function LoginScreen() {
           onChangeText={setPass}
         />
         <View style={{ marginVertical: 6 }}></View>
-
+        <ErrorText errorMsg={userState.error} />
         <Button icon="login" mode="contained" onPress={handleLogin} loading={userState.loading}>
           Нэвтрэх
         </Button>

@@ -57,7 +57,7 @@ export const UserStore = props => {
       await AsyncStorage.setItem('token', token)
       await AsyncStorage.setItem('userInfo', JSON.stringify(userInfo))
     } catch (error) {
-      console.log("Утас руу хадгалж чадсангүй...");
+      alert("Утас руу хадгалж чадсангүй...");
       setError(error)
     }
 
