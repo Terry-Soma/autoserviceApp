@@ -108,8 +108,6 @@ const css = StyleSheet.create({
     flex: 1,
     paddingTop: 12,
     paddingHorizontal: 6,
-    shadowRadius: 4,
-    shadowOpacity: 0.4,
     borderRadius: 8,
     elevation: 3,
     shadowColor: "#111",

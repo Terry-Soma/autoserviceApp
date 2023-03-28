@@ -58,6 +58,6 @@ export default props => {
 };
 
 const styles = StyleSheet.create({
-  text: { marginTop: 12, marginTop: 10 },
+  text: { marginTop: 12, },
   row: { flexDirection: "row", marginLeft: 10 }
 });

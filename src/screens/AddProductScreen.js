@@ -110,9 +110,7 @@ export default function AddProduct({ navigation, route }) {
     }
     setSaving(true)
 
-    var t0 = performance.now()
     let imgUrl = await uploadImage();
-    var t1 = performance.now()
 
     const data = {
       ner: producName,
@@ -126,7 +124,6 @@ export default function AddProduct({ navigation, route }) {
     }
     const result = await axios.post(`${restUrl}/api/products`, data);
     console.log('result.data', result.data);
-    console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.")
     setSaving(false)
 
     deleteState();

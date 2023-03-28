@@ -70,7 +70,7 @@ const css = StyleSheet.create({
     paddingVertical: 4,
   }, incomeItem: {
     paddingVertical: 8,
-    margin: 4,
+    marginHorizontal: 4,
     flex: 1,
     paddingTop: 12,
     paddingHorizontal: 6,
@@ -80,8 +80,6 @@ const css = StyleSheet.create({
     elevation: 3,
     shadowColor: "#111",
     shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.9,
-    shadowRadius: 2,
     backgroundColor: "#fefefe",
     marginVertical: 6,
     overflow: "hidden"

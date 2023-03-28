@@ -8,7 +8,7 @@
     "icon": "./assets/logo-square.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.jpg",
+      "image": "./assets/splash.png",
       "resizeMode": "cover",
       "backgroundColor": "#030303"
     },
@@ -19,7 +19,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to access camera.",
+        "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to access your microphone"
+      }
     },
     "android": {
       "versionCode": 1,
@@ -29,7 +33,8 @@
         "backgroundColor": "#FFFFFF"
       },
       "permissions": [
-        "android.permission.CAMERA"
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
       ]
     },
     "web": {
@@ -48,6 +53,11 @@
           "cameraPermission": "Allow $(PRODUCT_NAME) to access camera."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "b06f7baa-1a87-407e-80e9-07faac04a20d"
+      }
+    }
   }
 }

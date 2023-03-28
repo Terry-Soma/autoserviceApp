@@ -4,7 +4,7 @@ import React, { useCallback, useState } from 'react'
 
 import useCategory from '../hooks/useCategory';
 import CategoryProductList from '../components/CategoryProductList';
-import TopProduct from '../components/TopProduct';
+// import TopProduct from '../components/TopProduct';
 import axios from 'axios';
 import { restUrl } from '../../Constants';
 import ErrorText from '../components/ErrorText';
