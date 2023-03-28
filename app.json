@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "AutoServiceApp",
+    "name": "Сэлбэг худалдаа",
     "slug": "AutoServiceApp",
-    "description": "Car's spare part app",
+    "description": "Сэлбэг худалдаа, орлого хяналт",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo-square.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "image": "./assets/splash.jpg",
+      "resizeMode": "cover",
+      "backgroundColor": "#030303"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

@@ -19,7 +19,7 @@ export default function SideBar(props) {
       <DrawerContentScrollView {...props}>
         <View style={{ flexDirection: "row", paddingLeft: 20, marginTop: 15 }}>
           <Avatar.Image
-            source={require("../../../assets/splash.png")}
+            source={require("../../../assets/adaptive-icon.png")}
             size={50}
           />
           <View style={{ marginLeft: 8 }}>

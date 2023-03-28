@@ -17,7 +17,7 @@ const CategoryProductList = props => {
 
   return (
     <View style={{ marginLeft: 8, }}>
-      <View style={{ marginHorizontal: 6, marginTop: 24, backgroundColor: "#F8C94F", paddingVertical: 6, borderRadius: 12, width: "64%" }}>
+      <View style={{ marginHorizontal: 6, marginTop: 20, backgroundColor: "#F8C94F", paddingVertical: 6, borderRadius: 12, width: "64%" }}>
         <Text style={css.catText}>{props.data.ner} - {products.length}ш  </Text>
       </View>
       {/* {error && ( }

@@ -95,7 +95,7 @@ const ProductScreen = props => {
           {productInfo.img ? (
             <Image style={css.proImage} source={{ uri: productInfo.img }} />
           ) : (
-            <Image style={css.proImage} source={require("../../assets/parado1.jpg")} />)}
+            (<Text>Зураг алга</Text>))}
         </View>
         {/* admin baival  */}
         {/* <MyInput title="Барааны нэр" data={product.ner} />

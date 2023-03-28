@@ -8,7 +8,7 @@ import { fontVar } from '../../Constants';
 
 const TopProduct = props => {
   const navigation = useNavigation();
-  const [topProducts, loading, error] = useTopProduct();
+  const [topProducts, loading, error] = useTopProduct(props.refresh);
   const filteredItems = topProducts.filter(el =>
     el.ner.toLowerCase().includes(props.searchLocalValue.toLowerCase())
   );
@@ -50,7 +50,7 @@ const TopProduct = props => {
                     paddingHorizontal: 4,
                     margin: 4
                   }}>
-                    {item.img ? (<Image style={css.proImage} source={{ uri: item.img }} />) : (<Image style={css.proImage} source={require("../../assets/parado1.jpg")} />)}
+                    {item.img ? (<Image style={css.proImage} source={{ uri: item.img }} />) : (<Text>Зураг алга</Text>)}
                   </View>
                   <View style={css.flex}>
                     <Text style={css.countText}>{item.shirheg} ш</Text>

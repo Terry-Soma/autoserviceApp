@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { restUrl } from "../../Constants";
 
 
-export default function useTopProduct() {
+export default function useTopProduct({ refresh }) {
   const [topProducts, setTopProducts] = useState([]);
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
@@ -29,6 +29,6 @@ export default function useTopProduct() {
         setError(message);
       }).finally(() => setLoading(false));
     return () => setTopProducts([])
-  }, []);
+  }, [refresh]);
   return [topProducts, loading, error];
 }

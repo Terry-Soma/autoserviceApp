@@ -25,14 +25,9 @@ const Product = ({ data }) => {
         flex: 1,
         margin: 4
       }}>
-        {data.img ? data.img.startsWith("https://firebasestorage") ?
-          (<Image style={css.proImage} source={{ uri: data.img }} />) :
-          (<Image style={css.proImage} source={{ uri: restUrl + "/upload/" + data.img }} />) : null}
-        {/* {data.img.startsWith("https://firebasestorage") ?
-          (<Image style={css.proImage} source={{ uri: data.img }} />) :
-          (<Image style={css.proImage} source={{ uri: restUrl + "/upload/" + data.img }} />)
-        } */}
-        {/* <Image style={css.proImage} source={require(`../../assets/parado1.jpg`)} /> */}
+
+        <Image style={css.proImage} source={{ uri: data.img }} />
+
       </View>
       <View style={css.flex}>
         <Text style={css.countText}>{data.shirheg} ш</Text>

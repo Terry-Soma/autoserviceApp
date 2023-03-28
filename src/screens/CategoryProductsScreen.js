@@ -59,9 +59,9 @@ const CategoryProductsScreen = ({ navigation, route }) => {
                     alignItems: "flex-end"
                     // borderColor: "red", borderWidth: 1
                   }}>
-                    {data.img ? data.img.startsWith("https://firebasestorage") ?
+                    {data.img ?
                       (<Image style={css.proImage} source={{ uri: data.img }} />) :
-                      (<Image style={css.proImage} source={{ uri: restUrl + "/upload/" + data.img }} />) : (<Image style={css.proImage} source={require("../../assets/parado1.jpg")} />)}
+                      (<Text>Зураг алга</Text>)}
 
                   </View>
                   <View style={[css.flex,]}>

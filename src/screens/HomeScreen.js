@@ -82,7 +82,7 @@ const HomeScreen = ({ navigation, route }) => {
 
       {/* neg scroll View mash ih erelttei */}
       <ScrollView style={{
-        marginTop: 8,
+        // marginTop: 8,
       }}
         refreshControl={
           <RefreshControl
@@ -93,7 +93,7 @@ const HomeScreen = ({ navigation, route }) => {
         }
       >
 
-        <TopProduct searchLocalValue={localSearchText} />
+        {/* <TopProduct searchLocalValue={localSearchText} refresh={refreshing} /> */}
 
         {categories ? categories.map(category => (
           <CategoryProductList

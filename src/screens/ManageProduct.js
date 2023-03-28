@@ -129,10 +129,10 @@ export default function ManageProduct({ navigation, route }) {
     try {
       const result = await axios.patch(`${restUrl}/api/products/${product.id}`, data);
       console.log('result.data', result.data);
-      console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.")
+
       setSaving(false)
-      const r = await deleteImage();
-      console.log('restart', r)
+      product.img && await deleteImage();
+
 
       deleteState();
       navigation.navigate('Home', {
